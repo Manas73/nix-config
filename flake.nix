@@ -33,7 +33,7 @@
         window_manager = "i3";
         browsers = [ "vivaldi" "firefox" ];
         default_browser = "vivaldi";
-        utilities = [ ];
+        utilities = [ "stow" ];
 
         specialArgs = {
           inherit system;

@@ -64,7 +64,6 @@
     git
     wget
     curl
-    stow
     pulseaudio
   ];
 
