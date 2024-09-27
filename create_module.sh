@@ -32,8 +32,7 @@ functions.makeModuleConfig {
 EOF
     echo "Created $MODULE_DEFAULT"
 else
-    # If the file exists, add the new program to the options list
-    sed -i "s/\(${MODULE_NAME}_options = \[.*\)\]/\1 \"$PROGRAM_NAME\"]/" "$MODULE_DEFAULT"
+    sed -i "s/\(${MODULE_NAME}_options = \[.*\)\]/\1\"$PROGRAM_NAME\" ]/" "$MODULE_DEFAULT"
     echo "Updated $MODULE_DEFAULT with $PROGRAM_NAME"
 fi
 
