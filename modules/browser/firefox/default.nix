@@ -5,8 +5,8 @@
     };
 
     config = lib.mkIf config.firefox.enable {
-        home-manager.users.${username} = {
-            programs.firefox.enable = true;
+        home-manager.users.${username} = {pkgs, ... }: {
+            home.packages = with pkgs; [ firefox ];
         };
     };
 }

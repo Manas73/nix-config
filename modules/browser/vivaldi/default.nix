@@ -5,11 +5,8 @@
     };
 
     config = lib.mkIf config.vivaldi.enable {
-        home-manager.users.${username} = {
-            programs.chromium = {
-                enable = true;
-                package = pkgs.vivaldi;
-            };
+        home-manager.users.${username} = {pkgs, ... }: {
+            home.packages = with pkgs; [ vivaldi ];
         };
     };
 }

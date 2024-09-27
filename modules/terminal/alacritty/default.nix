@@ -5,8 +5,8 @@
     };
 
     config = lib.mkIf config.alacritty.enable {
-        home-manager.users.${username} = {
-            programs.alacritty.enable = true;
+        home-manager.users.${username} = {pkgs, ... }: {
+            home.packages = with pkgs; [ alacritty ];
         };
     };
 }

@@ -5,8 +5,8 @@
     };
 
     config = lib.mkIf config.kitty.enable  {
-        home-manager.users.${username} = {
-            programs.kitty.enable = true;
+        home-manager.users.${username} = {pkgs, ... }: {
+            home.packages = with pkgs; [ kitty ];
         };
     };
 }
