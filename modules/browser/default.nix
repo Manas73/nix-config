@@ -2,7 +2,7 @@
 
 let
   functions = import ../functions.nix { inherit pkgs lib; };
-  browser_options = [ "vivaldi" "firefox" ];
+  browser_options = [ "vivaldi" "firefox" "brave"];
 
   browserConfig = _: {
     home-manager.users."${username}".xdg.mimeApps = {
