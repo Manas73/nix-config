@@ -1,9 +1,5 @@
 { pkgs, username, ... }: {
 
-    imports = [
-    ../modules
-    ];
-
     home = {
      
       inherit username;
