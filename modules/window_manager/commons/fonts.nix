@@ -7,6 +7,8 @@
         powerline
         material-design-icons
       ];
+
+      fonts.fontconfig.enable = true; 
   };
 
 }
