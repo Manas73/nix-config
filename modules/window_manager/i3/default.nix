@@ -11,6 +11,7 @@
             rofi
             i3-gaps
             picom-next
+            xcompmgr
             feh
             polybar
             xbindkeys
