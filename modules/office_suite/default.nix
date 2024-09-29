@@ -5,6 +5,6 @@ let
 in
 functions.makeModuleConfig {
   options = office_suites_options;
-  current = office_suitess;
+  current = office_suites;
   module_name = "office_suite";
 }
