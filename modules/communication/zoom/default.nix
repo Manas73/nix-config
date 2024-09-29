@@ -4,7 +4,7 @@
         zoom.enable = lib.mkEnableOption "enables zoom";
     };
 
-    config = lib.mkIf config.zoom-us.enable  {
+    config = lib.mkIf config.zoom.enable  {
         home-manager.users.${username} = {pkgs, ... }: {
             home.packages = with pkgs; [ zoom-us ];
         };
