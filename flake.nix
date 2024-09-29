@@ -36,7 +36,7 @@
         utilities = [ "all" ];
         development_apps = [ "all" ];
         communications = [ "slack" "zoom" ];
-        office_suitess = [ "libreoffice" ];
+        office_suites = [ "libreoffice" ];
 
         specialArgs = {
           inherit system;
@@ -51,6 +51,7 @@
           inherit default_browser;
           inherit utilities;
           inherit development_apps;
+          inherit office_suites;
         };
       in
         nixpkgs.lib.nixosSystem {
