@@ -12,6 +12,8 @@
       stateVersion = "24.05";
     
     };
+
+    fonts.fontconfig.enable = true;
     
     programs.home-manager.enable = true;
     programs.git.enable = true;

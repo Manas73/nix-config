@@ -1,10 +1,12 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 {
-  fonts.packages = with pkgs; [
-    nerdfonts
-    powerline
-    material-design-icons
-  ];
+  home-manager.users.${username} = {pkgs, ... }: {
+      home.packages = with pkgs; [
+        nerdfonts
+        powerline
+        material-design-icons
+      ];
+  };
 
 }
