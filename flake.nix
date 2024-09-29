@@ -51,6 +51,7 @@
           inherit default_browser;
           inherit utilities;
           inherit development_apps;
+          inherit communications;
           inherit office_suites;
         };
       in
