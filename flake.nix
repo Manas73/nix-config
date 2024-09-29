@@ -60,8 +60,7 @@
           
           modules = [
             ./hosts/alfred
-            ./users/${username}/modules.nix
-            
+
             home-manager.nixosModules.home-manager
             {
              home-manager.useGlobalPkgs = true;
