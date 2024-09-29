@@ -36,6 +36,7 @@
         utilities = [ "all" ];
         development_apps = [ "all" ];
         communications = [ "slack" "zoom" ];
+        office_suitess = [ "libreoffice" ];
 
         specialArgs = {
           inherit system;
