@@ -34,6 +34,7 @@
         browsers = [ "vivaldi" "firefox" ];
         default_browser = "vivaldi";
         utilities = [ "stow" "btop" "ghq" "atuin" "yazi" "greenclip" ];
+        development_apps = [ "all" ];
 
         specialArgs = {
           inherit system;
@@ -47,6 +48,7 @@
           inherit browsers;
           inherit default_browser;
           inherit utilities;
+          inherit development_apps;
         };
       in
         nixpkgs.lib.nixosSystem {
