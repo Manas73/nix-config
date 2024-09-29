@@ -8,6 +8,7 @@
         services.xserver.windowManager.i3 = {
           enable = true;
           extraPackages = with pkgs; [
+            kdePackages.dolphin
             rofi
             i3-gaps
             picom-next
