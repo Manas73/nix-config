@@ -23,6 +23,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  hardware.bluetooth.package = with pkgs; [ bluez ];
 
   # Set your time zone.
   time.timeZone = timezone;
