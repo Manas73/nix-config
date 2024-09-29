@@ -35,7 +35,7 @@
         default_browser = "vivaldi";
         utilities = [ "all" ];
         development_apps = [ "all" ];
-        communications = [ "slack" "zoom" ];
+        communications = [ "slack" "zoom" "rambox" ];
         office_suites = [ "libreoffice" ];
 
         specialArgs = {
