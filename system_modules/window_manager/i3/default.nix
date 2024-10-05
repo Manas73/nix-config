@@ -28,6 +28,7 @@
             xbindkeys
             xorg.xdpyinfo
             sysstat
+            yad
           ];
         };
     };
