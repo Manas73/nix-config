@@ -48,6 +48,9 @@
        config = {
          allowUnfree = true;
          allowUnfreePredicate = (_: true);
+         permittedInsecurePackages = [
+             "openssl-1.1.1w"  # required by sublime
+         ];
        };
      };
 
@@ -67,7 +70,6 @@
            inherit pkgs;
            modules = [
              ./users/${user_settings.username}/home.nix
-             ./users/${user_settings.username}/modules.nix
            ];
            extraSpecialArgs = {
              # pass config variables from above
@@ -82,10 +84,10 @@
 
       nixosConfigurations = {
         system = lib.nixosSystem {
-          inherit pkgs;
           system = system_settings.system;
           modules = [
             ./hosts/alfred
+            ./users/${user_settings.username}/configuration.nix
           ];
           specialArgs = {
             # pass config variables from above

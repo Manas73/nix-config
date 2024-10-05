@@ -10,7 +10,7 @@ MODULE_NAME=$1
 PROGRAM_NAME=$2
 
 # Define the base directory for modules
-BASE_DIR="modules"
+BASE_DIR="user_modules"
 
 # Create the module directory if it doesn't exist
 mkdir -p "$BASE_DIR/$MODULE_NAME"

@@ -14,6 +14,7 @@ in
 {
   imports = [
     ../base_user.nix
+    ../../user_modules
   ] ++ imports;
 
   programs.git = {

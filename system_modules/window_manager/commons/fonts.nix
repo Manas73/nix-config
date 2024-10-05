@@ -1,7 +1,7 @@
 { pkgs, user_settings, ... }:
 
 {
-  home.packages = with pkgs; [
+  fonts.packages = with pkgs; [
     nerdfonts
     powerline
     material-design-icons
