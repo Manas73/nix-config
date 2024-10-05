@@ -14,6 +14,9 @@
     programs.git.enable = true;
 
     xdg.enable = true;
-    home.packages = [ pkgs.git-credential-manager ];
+    home.packages = with pkgs; [
+        git-credential-manager
+        age
+    ];
 
 }

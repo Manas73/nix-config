@@ -12,11 +12,15 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager-unstable.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
+    sops-nix.url = "github:mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
   outputs = inputs @ {
     self,
     home-manager,
+    sops-nix,
     ...
   } :
 
@@ -90,6 +94,7 @@
           modules = [
             ./hosts/alfred
             ./users/${user_settings.username}/configuration.nix
+            sops-nix.nixosModules.sops
           ];
           specialArgs = {
             # pass config variables from above
