@@ -1,14 +1,12 @@
-{ pkgs, username, ... }:
+{ pkgs, user_settings, ... }:
 
 {
-  home-manager.users.${username} = {pkgs, ... }: {
-      home.packages = with pkgs; [
-        nerdfonts
-        powerline
-        material-design-icons
-      ];
+  home.packages = with pkgs; [
+    nerdfonts
+    powerline
+    material-design-icons
+  ];
 
-      fonts.fontconfig.enable = true; 
-  };
+  fonts.fontconfig.enable = true;
 
 }

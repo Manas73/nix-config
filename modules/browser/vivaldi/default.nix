@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         vivaldi.enable = lib.mkEnableOption "enables vivaldi";
     };
 
     config = lib.mkIf config.vivaldi.enable {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ vivaldi ];
-        };
+        home.packages = with pkgs; [ vivaldi ];
     };
 }

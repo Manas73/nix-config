@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         gitkraken.enable = lib.mkEnableOption "enables gitkraken";
     };
 
     config = lib.mkIf config.gitkraken.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ gitkraken ];
-        };
+        home.packages = with pkgs; [ gitkraken ];
     };
 }

@@ -5,8 +5,4 @@
     enable = true;
     packages = [ pkgs.dconf ];
   };
-
-  programs.dconf = {
-    enable = true;
-  };
 }

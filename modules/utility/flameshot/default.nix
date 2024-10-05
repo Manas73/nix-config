@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         flameshot.enable = lib.mkEnableOption "enables flameshot";
     };
 
     config = lib.mkIf config.flameshot.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ flameshot ];
-        };
+        home.packages = with pkgs; [ flameshot ];
     };
 }

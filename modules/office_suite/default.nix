@@ -1,10 +1,10 @@
-{ pkgs, lib, office_suites, ... }:
+{ pkgs, lib, user_settings, ... }:
 let
   functions = import ../functions.nix { inherit pkgs lib; };
   office_suites_options = [ "onlyoffice" "libreoffice" ];
 in
 functions.makeModuleConfig {
   options = office_suites_options;
-  current = office_suites;
+  current = user_settings.office_suites;
   module_name = "office_suite";
 }

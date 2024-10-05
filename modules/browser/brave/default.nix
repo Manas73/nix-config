@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         brave.enable = lib.mkEnableOption "enables brave";
     };
 
     config = lib.mkIf config.brave.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ brave ];
-        };
+        home.packages = with pkgs; [ brave ];
     };
 }

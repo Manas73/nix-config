@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         libreoffice.enable = lib.mkEnableOption "enables libreoffice";
     };
 
     config = lib.mkIf config.libreoffice.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ libreoffice-still ];
-        };
+        home.packages = with pkgs; [ libreoffice-still ];
     };
 }

@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         onlyoffice.enable = lib.mkEnableOption "enables onlyoffice";
     };
 
     config = lib.mkIf config.onlyoffice.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ onlyoffice-bin_latest ];
-        };
+        home.packages = with pkgs; [ onlyoffice-bin_latest ];
     };
 }

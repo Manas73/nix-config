@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         alacritty.enable = lib.mkEnableOption "enables alacritty";
     };
 
     config = lib.mkIf config.alacritty.enable {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ alacritty ];
-        };
+        home.packages = with pkgs; [ alacritty ];
     };
 }

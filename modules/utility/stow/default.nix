@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         stow.enable = lib.mkEnableOption "enables stow";
     };
 
     config = lib.mkIf config.stow.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ stow ];
-        };
+        home.packages = with pkgs; [ stow ];
     };
 }

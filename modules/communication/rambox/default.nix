@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs-unstable, lib, config, user_settings, ... }: {
 
     options = {
         rambox.enable = lib.mkEnableOption "enables rambox";
     };
 
     config = lib.mkIf config.rambox.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ rambox ];
-        };
+        home.packages = with pkgs-unstable; [ rambox ];
     };
 }

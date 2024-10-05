@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Check if both arguments are provided
 if [ $# -ne 2 ]; then
@@ -19,14 +19,14 @@ mkdir -p "$BASE_DIR/$MODULE_NAME"
 MODULE_DEFAULT="$BASE_DIR/$MODULE_NAME/default.nix"
 if [ ! -f "$MODULE_DEFAULT" ]; then
     cat << EOF > "$MODULE_DEFAULT"
-{ pkgs, lib, ${MODULE_NAME}s, ... }:
+{ pkgs, lib, user_settings, ... }:
 let
   functions = import ../functions.nix { inherit pkgs lib; };
   ${MODULE_NAME}_options = [ "$PROGRAM_NAME" ];
 in
 functions.makeModuleConfig {
   options = ${MODULE_NAME}_options;
-  current = ${MODULE_NAME}s;
+  current = user_settings.${MODULE_NAME}s;
   module_name = "$MODULE_NAME";
 }
 EOF
@@ -42,16 +42,14 @@ mkdir -p "$BASE_DIR/$MODULE_NAME/$PROGRAM_NAME"
 # Create the program's default.nix
 PROGRAM_DEFAULT="$BASE_DIR/$MODULE_NAME/$PROGRAM_NAME/default.nix"
 cat << EOF > "$PROGRAM_DEFAULT"
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         ${PROGRAM_NAME}.enable = lib.mkEnableOption "enables ${PROGRAM_NAME}";
     };
 
     config = lib.mkIf config.${PROGRAM_NAME}.enable  {
-        home-manager.users.\${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ ${PROGRAM_NAME} ];
-        };
+        home.packages = with pkgs; [ ${PROGRAM_NAME} ];
     };
 }
 EOF

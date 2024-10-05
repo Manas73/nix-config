@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         postman.enable = lib.mkEnableOption "enables postman";
     };
 
     config = lib.mkIf config.postman.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ postman ];
-        };
+        home.packages = with pkgs; [ postman ];
     };
 }

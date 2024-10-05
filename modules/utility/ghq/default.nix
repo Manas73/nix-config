@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         ghq.enable = lib.mkEnableOption "enables ghq";
     };
 
     config = lib.mkIf config.ghq.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ ghq ];
-        };
+        home.packages = with pkgs; [ ghq ];
     };
 }

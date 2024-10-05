@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         zellij.enable = lib.mkEnableOption "enables zellij";
     };
 
     config = lib.mkIf config.zellij.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ zellij ];
-        };
+        home.packages = with pkgs; [ zellij ];
     };
 }

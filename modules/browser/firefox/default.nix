@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         firefox.enable = lib.mkEnableOption "enables firefox";
     };
 
     config = lib.mkIf config.firefox.enable {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ firefox ];
-        };
+        home.packages = with pkgs; [ firefox ];
     };
 }

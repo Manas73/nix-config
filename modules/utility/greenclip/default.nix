@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         greenclip.enable = lib.mkEnableOption "enables greenclip";
     };
 
     config = lib.mkIf config.greenclip.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ haskellPackages.greenclip ];
-        };
+        home.packages = with pkgs; [ haskellPackages.greenclip ];
     };
 }

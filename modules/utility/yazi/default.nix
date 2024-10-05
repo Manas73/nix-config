@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         yazi.enable = lib.mkEnableOption "enables yazi";
     };
 
     config = lib.mkIf config.yazi.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ yazi ];
-        };
+        home.packages = with pkgs; [ yazi ];
     };
 }

@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         btop.enable = lib.mkEnableOption "enables btop";
     };
 
     config = lib.mkIf config.btop.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ btop ];
-        };
+        home.packages = with pkgs; [ btop ];
     };
 }

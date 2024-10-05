@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         _1password.enable = lib.mkEnableOption "enables 1password";
     };
 
     config = lib.mkIf config._1password.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ _1password _1password-gui ];
-        };
+        home.packages = with pkgs; [ _1password _1password-gui ];
     };
 }

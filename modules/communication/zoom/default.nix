@@ -1,12 +1,10 @@
-{ pkgs, lib, config, username, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         zoom.enable = lib.mkEnableOption "enables zoom";
     };
 
     config = lib.mkIf config.zoom.enable  {
-        home-manager.users.${username} = {pkgs, ... }: {
-            home.packages = with pkgs; [ zoom-us ];
-        };
+        home.packages = with pkgs; [ zoom-us ];
     };
 }
