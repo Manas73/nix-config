@@ -36,11 +36,8 @@ else
     echo "Updated $MODULE_DEFAULT with $PROGRAM_NAME"
 fi
 
-# Create the program directory
-mkdir -p "$BASE_DIR/$MODULE_NAME/$PROGRAM_NAME"
-
-# Create the program's default.nix
-PROGRAM_DEFAULT="$BASE_DIR/$MODULE_NAME/$PROGRAM_NAME/default.nix"
+# Create the program's nix file
+PROGRAM_DEFAULT="$BASE_DIR/$MODULE_NAME/$PROGRAM_NAME.nix"
 cat << EOF > "$PROGRAM_DEFAULT"
 { pkgs, lib, config, ... }: {
 
