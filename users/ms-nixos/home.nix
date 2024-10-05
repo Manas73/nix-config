@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, user_settings, ... }:
 
 let
   # Get all entries in the current directory
@@ -15,6 +15,7 @@ in
   imports = [
     ../base_user.nix
     ../../user_modules
+    ./sops.nix
   ] ++ imports;
 
   programs.git.userName = "Manas73";
