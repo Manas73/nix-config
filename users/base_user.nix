@@ -12,6 +12,8 @@
     
     programs.home-manager.enable = true;
     programs.git.enable = true;
+    programs.git.package = pkgs.gitFull;
+    programs.git.extraConfig.credential.helper = "store";
 
     xdg.enable = true;
     home.packages = with pkgs; [

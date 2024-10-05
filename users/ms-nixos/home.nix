@@ -17,8 +17,7 @@ in
     ../../user_modules
   ] ++ imports;
 
-  programs.git = {
-    userName = "Manas73";
-    userEmail = "manas.sambare@gmail.com";
-  };
+  programs.git.userName = "Manas73";
+  programs.git.userEmail = "manas.sambare@gmail.com";
+
 }
