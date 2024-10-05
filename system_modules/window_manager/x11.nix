@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./commons
+    ./commons.nix
   ];
 
   # Configure X11

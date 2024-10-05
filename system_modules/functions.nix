@@ -24,7 +24,7 @@ let
         # Existing import logic for each window manager option
         map (option:
           if builtins.elem option options
-          then [ (import ./${module_name}/${option}) ]
+          then [ (import ./${module_name}/${option}.nix) ]
           else []
         ) currentList
       ) ++ conditional_imports; # Add the conditional imports at the end
