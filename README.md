@@ -8,7 +8,8 @@ The repository is organized as follows:
 
 - `flake.nix`: The main entry point for the Nix Flake configuration.
 - `hosts/`: Contains configuration for specific machines.
-- `modules/`: Reusable Nix modules for various system components.
+- `system_modules/`: Reusable Nix modules for various system components.
+- `user_modules/`: Reusable Nix user modules.
 - `users/`: User-specific configurations.
 
 ## Features
@@ -42,4 +43,4 @@ To customize this configuration for your own use:
 
 1. Modify the `hosts/` directory to match your machine(s).
 2. Update user configurations in the `users/` directory.
-3. Adjust modules in the `modules/` directory as needed.
+3. Adjust modules in the `system_modules/` or `user_modules/` directory as needed.
