@@ -27,11 +27,13 @@
         timezone = "Asia/Kolkata";
         locale = "en_IN";
         gpu_type = "nvidia";
+        shells = [ "fish" ];
     };
 
     user_settings = {
         username = "ms-nixos";
         full_name = "Manas Sambare";
+        default_shell = "fish";
         terminals = [ "kitty" ];
         keyring = "gnome-keyring";
         window_manager = "i3";

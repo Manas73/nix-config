@@ -42,7 +42,7 @@ mkdir -p "$BASE_DIR/$MODULE_NAME/$PROGRAM_NAME"
 # Create the program's default.nix
 PROGRAM_DEFAULT="$BASE_DIR/$MODULE_NAME/$PROGRAM_NAME/default.nix"
 cat << EOF > "$PROGRAM_DEFAULT"
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, ... }: {
 
     options = {
         ${PROGRAM_NAME}.enable = lib.mkEnableOption "enables ${PROGRAM_NAME}";
