@@ -1,4 +1,4 @@
-{ pkgs, lib, userhome-manager_settings, ... }:
+{ pkgs, lib, user_settings, ... }:
 let
   functions = import ../functions.nix { inherit pkgs lib; };
   window_manager_options = [ "i3" ];

@@ -6,11 +6,7 @@
 
     config = lib.mkIf config.i3.enable {
         nixpkgs.config = {
-          packageOverrides = pkgs: rec {
-            polybar = pkgs.polybar.override {
-              i3Support = true;
-            };
-          };
+
         };
 
         services.udisks2.enable = true;
