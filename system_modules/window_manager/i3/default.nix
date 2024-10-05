@@ -16,6 +16,8 @@
           extraPackages = with pkgs; [
             kdePackages.dolphin
             rofi
+            rofi-calc
+            rofi-emoji
             i3-gaps
             picom-next
             xcompmgr
