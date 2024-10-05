@@ -48,11 +48,6 @@
        config = {
          allowUnfree = true;
          allowUnfreePredicate = (_: true);
-         packageOverrides = pkgs: rec {
-            polybar = pkgs.polybar.override {
-                i3Support = true;
-            };
-         };
          permittedInsecurePackages = [
              "openssl-1.1.1w"  # required by sublime
          ];

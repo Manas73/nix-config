@@ -5,24 +5,26 @@
     };
 
     config = lib.mkIf config.i3.enable {
-        nixpkgs.config = {
-
-        };
-
         services.udisks2.enable = true;
         services.upower.enable = true;
         services.xserver.windowManager.i3 = {
           enable = true;
           extraPackages = with pkgs; [
             kdePackages.dolphin
-            rofi
-            rofi-calc
-            rofi-emoji
+           (
+                rofi.override (old: {
+                    plugins = [rofi-emoji rofi-calc];
+                })
+            )
             i3-gaps
             picom-next
             xcompmgr
             feh
-            polybar
+            (
+                polybar.override {
+                    i3Support = true;
+                }
+            )
             xbindkeys
             xorg.xdpyinfo
             sysstat
