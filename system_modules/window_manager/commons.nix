@@ -6,14 +6,6 @@
     packages = [ pkgs.dconf ];
   };
 
-  fonts.packages = with pkgs; [
-    nerdfonts
-    powerline
-    material-design-icons
-  ];
-    
-  fonts.fontconfig.enable = true;
-
   # Pipewire
   security.rtkit.enable = true;
   services.pipewire = {
