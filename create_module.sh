@@ -1,16 +1,26 @@
 #!/usr/bin/env bash
 
-# Check if both arguments are provided
-if [ $# -ne 2 ]; then
-    echo "Usage: $0 <module_name> <program_name>"
+# Check if all arguments are provided
+if [ $# -ne 3 ]; then
+    echo "Usage: $0 <system|user> <module_name> <program_name>"
     exit 1
 fi
 
-MODULE_NAME=$1
-PROGRAM_NAME=$2
+MODULE_TYPE=$1
+MODULE_NAME=$2
+PROGRAM_NAME=$3
 
-# Define the base directory for modules
-BASE_DIR="user_modules"
+# Define the base directory and settings variable based on the input
+if [ "$MODULE_TYPE" = "system" ]; then
+    BASE_DIR="system_modules"
+    SETTINGS="system_settings"
+elif [ "$MODULE_TYPE" = "user" ]; then
+    BASE_DIR="user_modules"
+    SETTINGS="user_settings"
+else
+    echo "Error: First argument must be either 'system' or 'user'"
+    exit 1
+fi
 
 # Create the module directory if it doesn't exist
 mkdir -p "$BASE_DIR/$MODULE_NAME"
@@ -19,14 +29,14 @@ mkdir -p "$BASE_DIR/$MODULE_NAME"
 MODULE_DEFAULT="$BASE_DIR/$MODULE_NAME/default.nix"
 if [ ! -f "$MODULE_DEFAULT" ]; then
     cat << EOF > "$MODULE_DEFAULT"
-{ pkgs, lib, user_settings, ... }:
+{ pkgs, lib, ${SETTINGS}, ... }:
 let
   functions = import ../functions.nix { inherit pkgs lib; };
   ${MODULE_NAME}_options = [ "$PROGRAM_NAME" ];
 in
 functions.makeModuleConfig {
   options = ${MODULE_NAME}_options;
-  current = user_settings.${MODULE_NAME}s;
+  current = ${SETTINGS}.${MODULE_NAME}s;
   module_name = "$MODULE_NAME";
 }
 EOF
