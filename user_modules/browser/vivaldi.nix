@@ -5,6 +5,11 @@
     };
 
     config = lib.mkIf config.vivaldi.enable {
-        home.packages = with pkgs; [ vivaldi ];
+        home.packages = with pkgs; [
+           (vivaldi.override {
+             proprietaryCodecs = true;
+             enableWidevine = true;
+           })
+       ];
     };
 }
