@@ -1,10 +1,5 @@
 { pkgs, ... }:
-
 {
-  imports = [
-    ./commons.nix
-  ];
-
   # Configure X11
   services.xserver = {
     enable = true;
@@ -14,6 +9,9 @@
     desktopManager.xterm.enable = false;
   };
 
-  services.displayManager.sddm.enable = true;
+  imports = [
+    ./commons.nix
+    ./sddm
+  ];
 
 }
