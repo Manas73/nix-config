@@ -95,7 +95,6 @@
           modules = [
             ./hosts/alfred
             ./users/${user_settings.username}/configuration.nix
-            sops-nix.nixosModules.sops
           ];
           specialArgs = {
             # pass config variables from above
