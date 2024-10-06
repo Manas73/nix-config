@@ -17,6 +17,9 @@
             kdePackages.breeze-icons
             kdePackages.breeze.qt5
             kdePackages.breeze
+            kdePackages.qtsvg
+            kdePackages.kio-fuse # to mount remote filesystems via FUSE
+            kdePackages.kio-extras # extra protocols support (sftp, fish and more)
            (
                 rofi.override (old: {
                     plugins = [rofi-emoji rofi-calc];
