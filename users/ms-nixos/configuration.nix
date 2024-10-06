@@ -3,6 +3,11 @@
     ../../system_modules
     ];
 
+    environment.sessionVariables = {
+      QT_QPA_PLATFORMTHEME = "qt6ct";
+      QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    };
+
     users.users.ms-nixos = {
       isNormalUser = true;
       shell = pkgs.${user_settings.default_shell};
