@@ -5,11 +5,6 @@
     };
 
     config = lib.mkIf config.i3.enable {
-        qt = {
-          enable = true;
-          platformTheme = "kde";
-        };
-
         services.udisks2.enable = true;
         services.upower.enable = true;
         services.xserver.windowManager.i3 = {
@@ -17,6 +12,7 @@
           extraPackages = with pkgs; [
             kdePackages.dolphin
             # Themes
+            libsForQt5.qtstyleplugin-kvantum
             kdePackages.breeze-gtk
             kdePackages.breeze-icons
             kdePackages.breeze.qt5

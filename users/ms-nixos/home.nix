@@ -5,10 +5,10 @@ let
   entries = builtins.readDir ./.;
 
   # Filter out non-directories and create import paths
-  imports = builtins.map
-    (name: "./${name}")
+  moduleImports = builtins.map
+    (name: ./${name})
     (builtins.filter
-      (name: entries.${name} == "directory")
+      (name: entries.${name} == "directory" && name != "default.nix")
       (builtins.attrNames entries));
 in
 {
@@ -16,8 +16,7 @@ in
     ../base_user.nix
     ../../user_modules
     ./sops.nix
-    ./theme.nix
-  ] ++ imports;
+  ] ++ moduleImports;
 
   programs.git.userName = "Manas73";
   programs.git.userEmail = "manas.sambare@gmail.com";

@@ -3,7 +3,7 @@
   # Cursor setup
   home.pointerCursor = {
     gtk.enable = true;
-    name = "Capitaine Cursors";
+    name = "capitaine-cursors";
     package = pkgs.capitaine-cursors;
     size = 16;
   };
@@ -18,26 +18,17 @@
       };
     };
     iconTheme = {
-      name = "Tela-circle-manjaro-dark";
+      name = "Tela-circle-dark";
       package = pkgs.tela-circle-icon-theme.override {
         colorVariants = [ "manjaro" ];
       };
     };
     cursorTheme = {
-      name = "Capitaine Cursors";
+      name = "capitaine-cursors";
       package = pkgs.capitaine-cursors;
     };
     gtk3 = {
       extraConfig.gtk-application-prefer-dark-theme = true;
-    };
-  };
-
-  qt = {
-    enable = true;
-    platformTheme = "gtk";
-    style = {
-      name = "gtk2";
-      package = pkgs.kdePackages.breeze.qt5;
     };
   };
 
