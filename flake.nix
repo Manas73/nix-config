@@ -32,7 +32,7 @@
         locale = "en_IN";
         gpu_type = "nvidia";
         shells = [ "fish" ];
-        desktop_managers = [ "plasma6" ];
+        desktop_managers = [ ];
     };
 
     user_settings = {
