@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.dropbox.enable  {
-        home.packages = with pkgs; [ dropbox ];
+        services.dropbox.enable = true;
     };
 }

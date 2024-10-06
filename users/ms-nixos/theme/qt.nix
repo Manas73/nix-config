@@ -17,13 +17,10 @@ let
     "Kvantum/Sweet-Mars".source = "${sweet-mars-kvantum}/share/Kvantum/Sweet-Mars";
 
     "qt6ct/qt6ct.conf".source = (pkgs.formats.ini { }).generate "qt6ct.conf" {
-     
          Appearance.icon_theme = "Tela-circle-manjaro";
          Appearance.style = "kvantum-dark";
-
          Fonts.fixed="JetBrainsMono Nerd Font,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular";
          Fonts.general="Roboto,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular";
-         
     };
  };
 }
