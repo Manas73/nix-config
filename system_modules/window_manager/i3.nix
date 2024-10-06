@@ -5,12 +5,22 @@
     };
 
     config = lib.mkIf config.i3.enable {
+        qt = {
+          enable = true;
+          platformTheme = "kde";
+        };
+
         services.udisks2.enable = true;
         services.upower.enable = true;
         services.xserver.windowManager.i3 = {
           enable = true;
           extraPackages = with pkgs; [
             kdePackages.dolphin
+            # Themes
+            kdePackages.breeze-gtk
+            kdePackages.breeze-icons
+            kdePackages.breeze.qt5
+            kdePackages.breeze
            (
                 rofi.override (old: {
                     plugins = [rofi-emoji rofi-calc];

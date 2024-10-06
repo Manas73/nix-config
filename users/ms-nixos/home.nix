@@ -16,6 +16,7 @@ in
     ../base_user.nix
     ../../user_modules
     ./sops.nix
+    ./theme.nix
   ] ++ imports;
 
   programs.git.userName = "Manas73";
