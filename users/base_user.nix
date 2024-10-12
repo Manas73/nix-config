@@ -1,11 +1,11 @@
-{ pkgs, user_settings, ... }: {
+{ inputs, pkgs, config, user_settings, ... }: {
 
     home = {
       username = user_settings.username;
       homeDirectory = "/home/${user_settings.username}";
 
       stateVersion = "24.05";
-    
+
     };
 
     fonts.fontconfig.enable = true;
@@ -20,5 +20,4 @@
         git-credential-manager
         age
     ];
-
 }
