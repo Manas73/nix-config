@@ -1,5 +1,6 @@
 keys:
-  - &ms-nixos age1ysr4m8ftee5sz8jjag7vuq365l55uqakmr6vu09xqvruytcxqgmq5uvcpq
+  - &users:
+    - &ms-nixos age1ysr4m8ftee5sz8jjag7vuq365l55uqakmr6vu09xqvruytcxqgmq5uvcpq
 
 creation_rules:
   - path_regex: secrets.yaml$
