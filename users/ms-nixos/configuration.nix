@@ -17,8 +17,34 @@
             "${user_settings.username}/password" = {
                 neededForUsers = true;
             };
+
+            "wireless.env" = { };
         };
     };
+    networking.wireless.environmentFile = config.sops.secrets."wireless.env".path;
+    networking.wireless.networks = {
+        "@airtel_5g_uuid@" = {
+          psk = "@airtel_5g_psk@";
+        };
+        "@airtel_uuid@" = {
+          psk = "@airtel_psk@";
+        };
+        "@jio_5g_uuid@" = {
+          psk = "@jio_5g_psk@";
+        };
+        "@jio_uuid@" = {
+          psk = "@jio_psk@";
+        };
+        "@bang_bang_uuid@" = {
+          psk = "@bang_bang_psk@";
+        };
+        "@bang_bang_5g_uuid@" = {
+          psk = "@bang_bang_5g_psk@";
+        };
+        "@hotspot_uuid@" = {
+          psk = "@hotspot_psk@";
+        };
+      };
 
     users.mutableUsers = false;   # Requried for password to be set via sops during system activation!
     users.users.${user_settings.username} = {
