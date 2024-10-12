@@ -8,10 +8,17 @@
       QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     };
 
-    sops.age.keyFile = "/home/${user_settings.username}/.config/sops/age/keys.txt";
-    sops.defaultSopsFile = ../../secrets.yaml;
-    sops.validateSopsFiles = true;
-    sops.secrets."${user_settings.username}/password".neededForUsers = true;
+    sops = {
+        defaultSopsFile = ../../secrets.yaml;
+        age = {
+            keyFile = "/home/${user_settings.username}/.config/sops/age/keys.txt";
+        };
+        secrets = {
+            "${user_settings.username}/password" = {
+                neededForUsers = true;
+            };
+        };
+    };
 
     users.mutableUsers = false;   # Requried for password to be set via sops during system activation!
     users.users.${user_settings.username} = {
