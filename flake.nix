@@ -76,6 +76,7 @@
          user = home-manager.lib.homeManagerConfiguration {
            inherit pkgs;
            modules = [
+              sops-nix.homeManagerModules.sops
              ./users/${user_settings.username}/home.nix
            ];
            extraSpecialArgs = {
@@ -94,6 +95,7 @@
           system = system_settings.system;
           modules = [
             ./hosts/alfred
+            sops-nix.nixosModules.sops
             ./users/${user_settings.username}/configuration.nix
           ];
           specialArgs = {

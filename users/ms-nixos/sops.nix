@@ -8,9 +8,7 @@ let
   home_directory = config.home.homeDirectory;
 in
 {
-  imports = [ inputs.sops-nix.homeManagerModules.sops ];
-
-  sops.age.keyFile = "/home/${user_settings.username}/.config/sops/age/keys.txt";
+  sops.age.keyFile = "${home_directory}/.config/sops/age/keys.txt";
   sops.defaultSopsFile = ../../secrets.yaml;
   sops.validateSopsFiles = true;
 

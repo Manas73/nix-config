@@ -1,7 +1,6 @@
 { lib, config, inputs, pkgs, user_settings, ... }: {
     imports = [
     ../../system_modules
-    inputs.sops-nix.nixosModules.sops
     ];
 
     environment.sessionVariables = {
