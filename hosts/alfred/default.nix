@@ -54,6 +54,8 @@
     git
     wget
     curl
+    age
+    chezmoi
     pulseaudio
     home-manager
     wpa_supplicant
