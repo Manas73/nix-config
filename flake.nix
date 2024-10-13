@@ -76,7 +76,6 @@
          user = home-manager.lib.homeManagerConfiguration {
            inherit pkgs;
            modules = [
-              sops-nix.homeManagerModules.sops
              ./users/${user_settings.username}/home.nix
            ];
            extraSpecialArgs = {

@@ -15,7 +15,6 @@ in
   imports = [
     ../base_user.nix
     ../../user_modules
-    ./sops.nix
   ] ++ moduleImports;
 
   programs.git.userName = "Manas73";
