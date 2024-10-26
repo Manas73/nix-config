@@ -1,5 +1,9 @@
 { pkgs, lib, config, ... }: {
 
+    imports = [
+      ./x11.nix
+    ];
+
     options = {
         i3.enable = lib.mkEnableOption "enables i3";
     };

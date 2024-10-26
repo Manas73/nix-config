@@ -1,4 +1,4 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, ... }: {
 
     options = {
         gnome-keyring.enable = lib.mkEnableOption "enables gnome-keyring";

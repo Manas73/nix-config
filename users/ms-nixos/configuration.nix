@@ -1,4 +1,10 @@
-{ lib, config, inputs, pkgs, user_settings, ... }: {
+{ lib, config, inputs, pkgs, user_configurations, ... }:
+
+let
+  user_settings = user_configurations."ms-nixos";
+in
+
+{
     imports = [
     ../../system_modules
     ];
