@@ -55,9 +55,8 @@
             # Privacy
             "com.apple.AdLib".allowApplePersonalizedAdvertising = false;
           };
-          CustomSystemPreferences = {
-            # ~/Library/Preferences/
-
+          WindowManager = {
+            EnableStandardClickToShowDesktop = false;
           };
         };
     };
