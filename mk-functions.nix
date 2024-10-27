@@ -91,7 +91,10 @@ rec {
         system = systemSettings.system;
         modules = [
           ./hosts/${systemSettings.hostname}
-          home-manager.darwinModules.home-manager
+          home-manager.darwinModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          }
           nix-homebrew.darwinModules.nix-homebrew
           {
             nix-homebrew = {
