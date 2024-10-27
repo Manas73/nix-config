@@ -52,6 +52,15 @@
     lib = inputs.nixpkgs.lib;
     mkFunctions = import ./mk-functions.nix { inherit inputs lib home-manager sops-nix darwin nix-homebrew; };
 
+    applications = {
+      browsers = [ "vivaldi" "firefox" ];
+      terminals = [ "kitty" ];
+      default_browser = "vivaldi";
+      utilities = [ "all" ];
+      development_apps = [ "all" ];
+      communications = [ "slack" "zoom" "rambox" ];
+    };
+
     alfredConfig = {
       system_settings = mkFunctions.mkSystemSettings {
         system = "x86_64-linux";
@@ -72,14 +81,8 @@
           username = "ms-nixos";
           full_name = "Manas Sambare";
           default_shell = "fish";
-          browsers = [ "vivaldi" "firefox" ];
-          terminals = [ "kitty" ];
-          default_browser = "vivaldi";
-          utilities = [ "all" ];
-          development_apps = [ "all" ];
-          communications = [ "slack" "zoom" "rambox" ];
           office_suites = [ "libreoffice" ];
-         };
+         } // applications;
       };
     };
 
@@ -90,10 +93,9 @@
         timezone = "Asia/Kolkata";
         locale = "en_IN";
         shells = [ "fish" ];
-        browsers = [ "vivaldi" ];
         allow_unfree_packages = true;
         permitted_insecure_package = [];
-      };
+      } // applications;
       user_configurations = {
         "manas.s" = mkFunctions.mkUserSettings {
           username = "manas.s";
