@@ -12,7 +12,7 @@ in
 
     users.users.${user_settings.username} = {
       home = "/Users/${user_settings.username}";
-      shell = pkgs.${user_settings.default_shell};
+      shell = "pkgs.${user_settings.default_shell}/bin/${user_settings.default_shell}";
     };
 
 }
