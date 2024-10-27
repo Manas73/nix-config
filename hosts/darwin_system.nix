@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
 {
+    programs.zsh.enable = true;
     security.pam.enableSudoTouchIdAuth = true;
     system = {
         defaults = {
