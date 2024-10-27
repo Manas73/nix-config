@@ -60,6 +60,33 @@ rec {
       inherit username full_name default_shell terminals browsers default_browser utilities development_apps communications office_suites;
     };
 
+    mkDarwinSettings = {
+      system,
+      hostname,
+      timezone,
+      locale,
+      allow_unfree_packages ? false,
+      permitted_insecure_package ? [ ],
+      shells ? [ ],
+      terminals ? [ ],
+      browsers ? [ ],
+      utilities ? [ ],
+      development_apps ? [ ],
+      communications ? [ ],
+      office_suites ? [ ],
+      window_managers ?  [ ]
+    }: let
+      package_config = mkPkgs {
+        inherit system allow_unfree_packages permitted_insecure_package;
+      };
+    in {
+      inherit system hostname timezone locale shells terminals browsers utilities development_apps communications office_suites window_managers;
+      keyrings = [ ];
+      desktop_managers = [ ];
+      pkgs = package_config.pkgs;
+      pkgs-unstable = package_config.pkgs-unstable;
+    };
+
     # Helper function to create NixOS configurations
     mkNixosConfig = { config }:
       let

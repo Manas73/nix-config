@@ -84,12 +84,13 @@
     };
 
     turingConfig = {
-      system_settings = mkFunctions.mkSystemSettings {
+      system_settings = mkFunctions.mkDarwinSettings {
         system = "aarch64-darwin";
         hostname = "manass-KY4RYYHFF6";
         timezone = "Asia/Kolkata";
         locale = "en_IN";
         shells = [ "fish" ];
+        browsers = [ "vivaldi" ];
         allow_unfree_packages = true;
         permitted_insecure_package = [];
       };
@@ -98,7 +99,6 @@
           username = "manas.s";
           full_name = "Manas Sambare";
           default_shell = "fish";
-          browsers = [ "vivaldi" ];
         };
       };
     };
