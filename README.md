@@ -2,10 +2,18 @@
 
 This repository contains my personal NixOS and Home Manager configurations, managed using Nix Flakes.
 
+## Table of Contents
+- [Structure](#structure)
+- [MacOS (Darwin)](#macos-darwin)
+  - [Initial Setup](#initial-setup)
+  - [Usage](#usage)
+- [NixOS](#nixos)
+  - [Usage](#usage-1)
+- [Customization](#customization)
+
 ## Structure
 
 The repository is organized as follows:
-
 - `flake.nix`: The main entry point for the Nix Flake configuration.
 - `hosts/`: Contains configuration for specific machines (e.g., `alfred`).
 - `system_modules/`: Reusable Nix modules for various system components (e.g., `desktop manager`, `shell`, `window manager`).
@@ -15,15 +23,53 @@ The repository is organized as follows:
 - `sync-system.sh`, `sync-user.sh`, `sync.sh`: Scripts for synchronizing and deploying configurations.
 - `secrets.yaml`: File for storing sensitive information managed by `nix-sops`.
 
-## Features
+## MacOS (Darwin)
 
-- Modular configuration structure for easy management and reuse.
-- Separate host configurations for different machines.
-- User-specific Home Manager configurations.
-- Configurations for frequently used software and system components.
-- Utilizes Nix Flakes for improved reproducibility and dependency management.
+### Initial Setup
 
-## Usage
+1. Install Homebrew Package Manager. More information can be found [here](https://brew.sh).
+    ```shell
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    ```
+
+2. Install the Nix Package Manager on your system. More information can be found [here](https://nixos.org/manual/nix/stable/installation/installing-binary.html).
+    ```shell
+    sh <(curl -L https://nixos.org/nix/install)~
+    ```
+3. Create a nix config directory
+    ```shell
+    mkdir -p ~/.config/nix
+    ```
+4. Allow experimental features to use flakes
+    ```shell
+    echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+    ```
+5. Install Nix-Darwin:
+    ```shell
+    nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
+    ```
+   ```shell
+   ./result/bin/darwin-installer
+    ```
+
+### Usage
+1. Ensure you have Nix with Flakes enabled installed on your system.
+2. Clone this repository:
+    ```shell
+    git clone https://github.com/Manas73/nix-config.git
+    ```
+3. Navigate to the repository directory:
+    ```shell
+    cd nix-config
+    ```
+4. Apply the configurations:
+    ```shell
+    ./sync-darwin.sh
+    ```
+
+## NixOS
+
+### Usage
 
 To use this configuration:
 
@@ -63,6 +109,7 @@ To use this configuration:
    <br>
 
 5. After running any of these scripts, your system will rebuild and apply the new configurations.
+
 
 ## Customization
 
