@@ -28,6 +28,7 @@ rec {
       hostname,
       timezone,
       locale,
+      is_darwin ? false,
       gpu_type ? null,
       allow_unfree_packages ? false,
       keyrings ? [ ],

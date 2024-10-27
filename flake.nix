@@ -79,6 +79,7 @@
         timezone = "Asia/Kolkata";
         locale = "en_IN";
         shells = [ "fish" ];
+        is_darwin = true;
         allow_unfree_packages = true;
         permitted_insecure_package = [];
       };
@@ -87,6 +88,7 @@
           username = "manas.s";
           full_name = "Manas Sambare";
           default_shell = "fish";
+          browsers = [ "vivaldi" ];
         };
       };
     };
