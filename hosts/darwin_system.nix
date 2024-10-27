@@ -2,6 +2,9 @@
 
 {
     programs.zsh.enable = true;
+    programs.fish.enable = true;
+    environment.shells = [pkgs.fish];
+
     security.pam.enableSudoTouchIdAuth = true;
     system = {
         defaults = {
@@ -60,5 +63,9 @@
             EnableStandardClickToShowDesktop = false;
           };
         };
+        activationScripts.setFishAsShell.text = ''
+          dscl . -create /Users/manas.s UserShell /run/current-system/sw/bin/fish
+        '';
+        activationScripts.postActivation.text = ''sudo chsh -s /run/current-system/sw/bin/fish'';
     };
 }
