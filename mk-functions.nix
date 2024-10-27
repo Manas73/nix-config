@@ -49,7 +49,7 @@ rec {
       username,
       full_name,
       default_shell,
-      default_browser,
+      default_browser ? null,
       terminals ? [ ],
       browsers ? [ ],
       utilities ? [ ],
@@ -59,24 +59,6 @@ rec {
     }: {
       inherit username full_name default_shell terminals browsers default_browser utilities development_apps communications office_suites;
     };
-
-    # Helper function to create home-manager configurations
-    mkHomeConfig = { config, username }:
-      let
-        systemSettings = config.system_settings;
-        userSettings = config.user_configurations.${username};
-      in
-      home-manager.lib.homeManagerConfiguration {
-        pkgs = systemSettings.pkgs;
-        modules = [ ./users/${username}/home.nix ];
-        extraSpecialArgs = {
-          pkgs = systemSettings.pkgs;
-          pkgs-unstable = systemSettings.pkgs-unstable;
-          system_settings = systemSettings;
-          user_settings = userSettings;
-          inherit inputs;
-        };
-      };
 
     # Helper function to create NixOS configurations
     mkNixosConfig = { config }:
@@ -99,4 +81,42 @@ rec {
         };
       };
 
+    # Helper function to create Darwin configurations
+    mkDarwinConfig = { config }:
+      let
+        systemSettings = config.system_settings;
+        userConfigurations = config.user_configurations;
+      in
+      darwin.lib.darwinSystem {
+        system = systemSettings.system;
+        modules = [
+          ./hosts/${systemSettings.hostname}
+          home-manager.darwinModules.home-manager
+        ] ++ (map (username: ./users/${username}/configuration.nix) (builtins.attrNames userConfigurations));
+        specialArgs = {
+          pkgs = systemSettings.pkgs;
+          pkgs-unstable = systemSettings.pkgs-unstable;
+          system_settings = systemSettings;
+          user_configurations = userConfigurations;
+          inherit inputs;
+        };
+      };
+
+    # Helper function to create home-manager configurations
+    mkHomeConfig = { config, username }:
+      let
+        systemSettings = config.system_settings;
+        userSettings = config.user_configurations.${username};
+      in
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = systemSettings.pkgs;
+        modules = [ ./users/${username}/home.nix ];
+        extraSpecialArgs = {
+          pkgs = systemSettings.pkgs;
+          pkgs-unstable = systemSettings.pkgs-unstable;
+          system_settings = systemSettings;
+          user_settings = userSettings;
+          inherit inputs;
+        };
+      };
 }

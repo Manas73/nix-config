@@ -72,18 +72,49 @@
       };
     };
 
-    in {
-      homeConfigurations = {
-        "ms-nixos" = mkFunctions.mkHomeConfig {
-          config = alfredConfig;
-          username = "ms-nixos";
+    turingConfig = {
+      system_settings = mkFunctions.mkSystemSettings {
+        system = "aarch64-darwin";
+        hostname = "manass-KY4RYYHFF6";
+        timezone = "Asia/Kolkata";
+        locale = "en_IN";
+        shells = [ "fish" ];
+        allow_unfree_packages = true;
+        permitted_insecure_package = [];
+      };
+      user_configurations = {
+        "manas.s" = mkFunctions.mkUserSettings {
+          username = "manas.s";
+          full_name = "Manas Sambare";
+          default_shell = "fish";
         };
       };
+    };
+
+    in {
 
       nixosConfigurations = {
         alfred = mkFunctions.mkNixosConfig {
           config = alfredConfig;
         };
       };
+
+      darwinConfigurations = {
+        "manass-KY4RYYHFF6" = mkFunctions.mkDarwinConfig {
+          config = turingConfig;
+        };
+      };
+
+      homeConfigurations = {
+        "ms-nixos" = mkFunctions.mkHomeConfig {
+          config = alfredConfig;
+          username = "ms-nixos";
+        };
+        "manas.s" = mkFunctions.mkHomeConfig {
+          config = turingConfig;
+          username = "manas.s";
+        };
+      };
+
   };
 }
