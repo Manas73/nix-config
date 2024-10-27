@@ -1,5 +1,7 @@
 { pkgs, vars, ... }:
 {
+  imports = [ ../darwin_system.nix ];
+
   environment.systemPackages = with pkgs; [
     git
     wget
