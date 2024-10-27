@@ -1,4 +1,4 @@
-{ inputs, lib, home-manager, sops-nix, darwin, ... }:
+{ inputs, lib, home-manager, sops-nix, darwin, nix-homebrew, ... }:
 
 rec {
     # Define a function to create pkgs and pkgs-unstable
@@ -92,6 +92,22 @@ rec {
         modules = [
           ./hosts/${systemSettings.hostname}
           home-manager.darwinModules.home-manager
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              # Install Homebrew under the default prefix
+              enable = true;
+
+              # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
+              enableRosetta = true;
+
+              # User owning the Homebrew prefix
+              user = "manas.s";
+
+              # Automatically migrate existing Homebrew installations
+              autoMigrate = true;
+            };
+          }
         ] ++ (map (username: ./users/${username}/configuration.nix) (builtins.attrNames userConfigurations));
         specialArgs = {
           pkgs = systemSettings.pkgs;

@@ -2,7 +2,11 @@
 
     home = {
       username = user_settings.username;
-      homeDirectory = "/home/${user_settings.username}";
+      homeDirectory = if pkgs.stdenv.isDarwin then
+        "/Users/${config.home.username}"
+       else
+        "/home/${config.home.username}"
+      ;
 
       stateVersion = "24.05";
 

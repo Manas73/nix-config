@@ -5,6 +5,7 @@
     
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -26,6 +27,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+
   };
 
   outputs = inputs @ {
@@ -33,13 +43,14 @@
     home-manager,
     sops-nix,
     darwin,
+    nix-homebrew,
     ...
   } :
 
   let
 
     lib = inputs.nixpkgs.lib;
-    mkFunctions = import ./mk-functions.nix { inherit inputs lib home-manager sops-nix darwin; };
+    mkFunctions = import ./mk-functions.nix { inherit inputs lib home-manager sops-nix darwin nix-homebrew; };
 
     alfredConfig = {
       system_settings = mkFunctions.mkSystemSettings {
