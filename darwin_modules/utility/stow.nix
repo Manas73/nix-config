@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.stow.enable  {
-        homebrew.casks = [ "stow" ];
+        environment.systemPackages = [ pkgs.stow ];
     };
 }

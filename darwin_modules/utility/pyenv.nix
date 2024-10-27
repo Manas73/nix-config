@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.pyenv.enable  {
-        homebrew.casks = [ "pyenv" "pyenv-virtualenv" ];
+        environment.systemPackages = [ pkgs.pyenv ];
     };
 }

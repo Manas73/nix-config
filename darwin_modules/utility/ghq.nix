@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.ghq.enable  {
-        homebrew.casks = [ "ghq" ];
+        environment.systemPackages = [ pkgs.ghq ];
     };
 }

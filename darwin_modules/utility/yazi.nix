@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.yazi.enable  {
-        homebrew.casks = [ "yazi" ];
+        environment.systemPackages = [ pkgs.yazi ];
     };
 }

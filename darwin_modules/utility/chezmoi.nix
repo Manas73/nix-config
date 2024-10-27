@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.chezmoi.enable  {
-        homebrew.casks = [ "chezmoi" ];
+        environment.systemPackages = [ pkgs.chezmoi ];
     };
 }

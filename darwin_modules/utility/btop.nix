@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.btop.enable  {
-        homebrew.casks = [ "btop" ];
+        environment.systemPackages = [ pkgs.btop ];
     };
 }

@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.starship.enable  {
-        homebrew.casks = [ "starship" ];
+        environment.systemPackages = [ pkgs.starship ];
     };
 }

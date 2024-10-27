@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.atuin.enable  {
-        homebrew.casks = [ "atuin" ];
+        environment.systemPackages = [ pkgs.atuin ];
     };
 }

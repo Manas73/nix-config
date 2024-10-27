@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.lazygit.enable  {
-        homebrew.casks = [ "lazygit" ];
+        environment.systemPackages = [ pkgs.lazygit ];
     };
 }

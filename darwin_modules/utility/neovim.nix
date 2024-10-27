@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.neovim.enable  {
-        homebrew.casks = [ "neovim" ];
+        environment.systemPackages = [ pkgs.neovim ];
     };
 }

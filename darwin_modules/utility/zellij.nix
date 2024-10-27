@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.zellij.enable  {
-        homebrew.casks = [ "zellij" ];
+        environment.systemPackages = [ pkgs.zellij ];
     };
 }

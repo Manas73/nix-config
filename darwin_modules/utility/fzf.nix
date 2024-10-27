@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.fzf.enable  {
-        homebrew.casks = [ "fzf" ];
+        environment.systemPackages = [ pkgs.fzf ];
     };
 }

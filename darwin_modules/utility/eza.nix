@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.eza.enable  {
-        homebrew.casks = [ "eza" ];
+        environment.systemPackages = [ pkgs.eza ];
     };
 }

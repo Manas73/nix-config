@@ -5,6 +5,6 @@
     };
 
     config = lib.mkIf config.zoxide.enable  {
-        homebrew.casks = [ "zoxide" ];
+        environment.systemPackages = [ pkgs.zoxide ];
     };
 }
