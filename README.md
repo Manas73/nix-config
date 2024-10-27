@@ -46,11 +46,10 @@ The repository is organized as follows:
     ```
 5. Install Nix-Darwin:
     ```shell
-    nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
+    nix run nix-darwin -- switch --flake .#<host>
     ```
-   ```shell
-   ./result/bin/darwin-installer
-    ```
+
+6. Restart your shell.
 
 ### Usage
 1. Ensure you have Nix with Flakes enabled installed on your system.
