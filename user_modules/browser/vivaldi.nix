@@ -1,17 +1,17 @@
-{ pkgs, lib, config, system_settings, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         vivaldi.enable = lib.mkEnableOption "enables vivaldi";
     };
 
     config = lib.mkIf config.vivaldi.enable {
-        home.packages = lib.mkIf (!system_settings.is_darwin) (with pkgs; [
+        home.packages = lib.mkIf (pkgs.stdenv.isLinux) (with pkgs; [
             (vivaldi.override {
                 proprietaryCodecs = true;
                 enableWidevine = true;
             })
         ]);
 
-        homebrew.casks = lib.mkIf system_settings.is_darwin [ "vivaldi" ];
+        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "vivaldi" ];
     };
 }

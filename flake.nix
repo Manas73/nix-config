@@ -79,7 +79,6 @@
         timezone = "Asia/Kolkata";
         locale = "en_IN";
         shells = [ "fish" ];
-        is_darwin = true;
         allow_unfree_packages = true;
         permitted_insecure_package = [];
       };
