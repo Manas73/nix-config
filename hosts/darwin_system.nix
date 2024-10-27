@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
 {
+    security.pam.enableSudoTouchIdAuth = true;
     system = {
         defaults = {
           NSGlobalDomain = {
