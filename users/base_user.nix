@@ -20,4 +20,16 @@
         git-credential-manager
         age
     ];
+
+    
+    xdg.mimeApps.defaultApplications =
+    if (user_settings.default_browser != "" && builtins.elem user_settings.default_browser user_settings.browsers)
+    then {
+      "text/html" = "${user_settings.default_browser}.desktop";
+      "x-scheme-handler/http" = "${user_settings.default_browser}.desktop";
+      "x-scheme-handler/https" = "${user_settings.default_browser}.desktop";
+      "x-scheme-handler/about" = "${user_settings.default_browser}.desktop";
+      "x-scheme-handler/unknown" = "${user_settings.default_browser}.desktop";
+    }
+    else {};
 }
