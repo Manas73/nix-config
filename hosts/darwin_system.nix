@@ -19,16 +19,16 @@
             # "com.apple.keyboard.fnState" = true;
           };
           dock = {
-            autohide = false;
+            autohide = true;
             magnification = true;
             # magnification size
             largesize = 95;
             mineffect = "scale";
             # minimize-to-application = true;
-            orientation = "bottom";
+            orientation = "right";
             showhidden = false;
             show-recents = false;
-            tilesize = 64;
+            tilesize = 52;
           };
           finder = {
             ShowPathbar = true;
