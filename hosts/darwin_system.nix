@@ -16,7 +16,11 @@
             NSAutomaticSpellingCorrectionEnabled = false;
             "com.apple.mouse.tapBehavior" = 1;
             "com.apple.trackpad.enableSecondaryClick" = true;
+            AppleSpacesSwitchOnActivate = true;
             # "com.apple.keyboard.fnState" = true;
+          };
+          spaces = {
+            spans-displays = false;
           };
           dock = {
             autohide = true;
