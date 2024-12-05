@@ -52,7 +52,7 @@
             CreateDesktop = true;
             FXDefaultSearchScope = "SCcf";
             FXEnableExtensionChangeWarning = false;
-            FXPreferredViewStyle = "clmv";
+            FXPreferredViewStyle = "icnv";
             QuitMenuItem = false;
             ShowPathbar = true;
             ShowStatusBar = false;
