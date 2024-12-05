@@ -33,10 +33,29 @@
             showhidden = false;
             show-recents = false;
             tilesize = 52;
+            persistent-apps = [
+              "/System/Applications/App Store.app"
+              "/System/Applications/System Settings.app"
+              "/Applications/kitty.app"
+              "/Applications/Vivaldi.app"
+              "/Applications/Slack.app"
+              "/Applications/GitKraken.app"
+              "/Applications/PyCharm.app"
+              "/Applications/Rambox.app"
+            ];
           };
           finder = {
+            _FXShowPosixPathInTitle = false;
+            _FXSortFoldersFirst = true;
+            AppleShowAllExtensions = true;
+            AppleShowAllFiles = false;
+            CreateDesktop = true;
+            FXDefaultSearchScope = "SCcf";
+            FXEnableExtensionChangeWarning = false;
+            FXPreferredViewStyle = "clmv";
+            QuitMenuItem = false;
             ShowPathbar = true;
-            ShowStatusBar = true;
+            ShowStatusBar = false;
           };
           trackpad = {
             Clicking = true;
