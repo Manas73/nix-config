@@ -11,9 +11,11 @@
     config = lib.mkIf config.i3.enable {
         services.udisks2.enable = true;
         services.upower.enable = true;
+        services.dunst.enable = true;
         services.xserver.windowManager.i3 = {
           enable = true;
           extraPackages = with pkgs; [
+            dunst
             kdePackages.dolphin
             # Themes
             libsForQt5.qtstyleplugin-kvantum
