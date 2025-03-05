@@ -18,6 +18,8 @@
     grub = {
       enable = true;
       device = "nodev";
+      default = "saved";
+      extraEntries = "GRUB_SAVEDEFAULT=true";
       efiInstallAsRemovable = true;
       efiSupport = true;
       useOSProber = true;

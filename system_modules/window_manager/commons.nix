@@ -19,5 +19,4 @@
   programs.dconf = {
     enable = true;
   };
-
 }

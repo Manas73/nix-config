@@ -42,6 +42,7 @@ in
       openssh.authorizedKeys.keys = config.users.users.${user_settings.username}.openssh.authorizedKeys.keys;
     };
 
+
     systemd = {
       user.services.polkit-gnome-authentication-agent-1 = {
         description = "polkit-gnome-authentication-agent-1";
@@ -54,8 +55,7 @@ in
             Restart = "on-failure";
             RestartSec = 1;
             TimeoutStopSec = 10;
-          };
+        };
       };
     };
-
 }
