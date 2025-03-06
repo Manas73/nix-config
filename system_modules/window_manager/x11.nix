@@ -10,7 +10,6 @@
   };
 
   imports = [
-    ./commons.nix
     ./sddm
   ];
 
