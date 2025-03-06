@@ -1,14 +1,24 @@
 { pkgs, lib, config, ... }: {
 
-    imports = [
-      ./x11.nix
-    ];
-
     options = {
         i3.enable = lib.mkEnableOption "enables i3";
     };
 
     config = lib.mkIf config.i3.enable {
+        imports = [
+            ./sddm
+        ];
+
+        # Configure X11
+        services.xserver = {
+            enable = true;
+            xkb.layout = "us";
+            xkb.variant = "";
+
+            desktopManager.xterm.enable = false;
+        };
+
+
         services.udisks2.enable = true;
         services.upower.enable = true;
         services.xserver.windowManager.i3 = {
