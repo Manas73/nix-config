@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         neovim.enable = lib.mkEnableOption "enables neovim";

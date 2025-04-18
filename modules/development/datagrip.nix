@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         datagrip.enable = lib.mkEnableOption "enables datagrip";

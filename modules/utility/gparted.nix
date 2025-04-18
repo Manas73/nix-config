@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         gparted.enable = lib.mkEnableOption "enables gparted";

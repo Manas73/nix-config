@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         greenclip.enable = lib.mkEnableOption "enables greenclip";

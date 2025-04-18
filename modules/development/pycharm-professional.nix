@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, user_settings, ... }: {
 
     options = {
         pycharm-professional.enable = lib.mkEnableOption "enables pycharm-professional";
