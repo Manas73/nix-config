@@ -7,6 +7,7 @@ in
 {
     imports = [
     ../../system_modules
+    ../../modules
     ];
 
     environment.sessionVariables = {
@@ -77,24 +78,24 @@ in
       default.config = ''
       ;; Kanata Keyboard Configuration for Programming with Home-Row Mods
 
-      
+
       ;; Define aliases for the home-row mods and other tap-hold keys
       (defalias
         ;; Home row mods - left hand
         alt_a (tap-hold 200 200 a lalt)  ;; A key: tap for 'a', hold for left Alt
         sft_s (tap-hold 200 200 s lsft)  ;; S key: tap for 's', hold for left Shift
         ctl_d (tap-hold 200 200 d lctl)  ;; D key: tap for 'd', hold for left Control
-      
+
         ;; Home row mods - right hand
         ctl_j (tap-hold 200 200 j rctl)  ;; J key: tap for 'j', hold for right Control
         sft_k (tap-hold 200 200 k rsft)  ;; K key: tap for 'k', hold for right Shift
         alt_l (tap-hold 200 200 l lalt)  ;; L key: tap for 'l', hold for left Alt
         met_; (tap-hold 200 200 ; rmet)  ;; ; key: tap for ';', hold for right Super/Meta
-      
+
         ;; Existing mapping: Caps Lock as Esc/Super
         esc_met (tap-hold 200 200 esc lmet)  ;; Caps: tap for Escape, hold for left Super/Meta
       )
-      
+
       ;; Source keys (standard QWERTY layout)
       (defsrc
         esc  1    2    3    4    5    6    7    8    9    0    -    =    bspc
@@ -103,7 +104,7 @@ in
         lsft z    x    c    v    b    n    m    ,    .    /    rsft
         lctl lmet lalt           spc            ralt rmet rctl
       )
-      
+
       ;; Main layer with home row mods
       (deflayer main
         esc  1    2    3    4    5    6    7    8    9    0    -    =    bspc

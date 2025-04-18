@@ -7,7 +7,7 @@ in
 {
     imports = [
     ../../system_modules
-    ../../darwin_modules
+    ../../modules
     ];
 
     users.users.${user_settings.username} = {

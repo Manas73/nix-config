@@ -17,9 +17,8 @@ The repository is organized as follows:
 - `flake.nix`: The main entry point for the Nix Flake configuration.
 - `hosts/`: Contains configuration for specific machines (e.g., `alfred`).
 - `system_modules/`: Reusable Nix modules for various system components (e.g., `desktop manager`, `shell`, `window manager`).
-- `user_modules/`: Reusable Nix user modules (e.g., `browsers`, `communication tools`, `development tools`).
+- `modules/`: Reusable Nix modules for applications and utilities (e.g., `browsers`, `communication tools`, `development tools`).
 - `users/`: User-specific configurations
-- `create_module.sh`: Script to create new modules.
 - `sync-system.sh`, `sync-user.sh`, `sync.sh`: Scripts for synchronizing and deploying configurations.
 - `secrets.yaml`: File for storing sensitive information managed by `nix-sops`.
 
@@ -116,6 +115,5 @@ To customize this configuration for your own use:
 
 1. Modify the `hosts/` directory to match your machine(s).
 2. Update user configurations in the `users/` directory.
-3. Adjust modules in the `system_modules/` or `user_modules/` directory as needed.
-4. Use the `create_module.sh` script to create new modules as required.
-5. Utilize the sync scripts (`sync-system.sh`, `sync-user.sh`, `sync.sh`) to deploy your changes.
+3. Adjust modules in the `system_modules/` or `modules/` directory as needed.
+4. Utilize the sync scripts (`sync-system.sh`, `sync-user.sh`, `sync.sh`) to deploy your changes.
