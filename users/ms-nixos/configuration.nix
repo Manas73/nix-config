@@ -5,10 +5,6 @@ let
 in
 
 {
-    imports = [
-    ../../modules
-    ];
-
     environment.sessionVariables = {
       QT_QPA_PLATFORMTHEME = "qt6ct";
       QT_AUTO_SCREEN_SCALE_FACTOR = "1";

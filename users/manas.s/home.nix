@@ -14,7 +14,6 @@ in
 {
   imports = [
     ../base_user.nix
-    ../../modules
   ] ++ moduleImports;
 
   programs.git.userName = "manas-turing";

@@ -6,7 +6,7 @@ in
 
 {
     imports = [
-    ../../modules
+        ../../modules
     ];
 
     users.users.${user_settings.username} = {
