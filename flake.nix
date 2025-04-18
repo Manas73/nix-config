@@ -73,7 +73,7 @@
         gpu_type = "nvidia";
         shells = [ "fish" ];
         keyrings = [ "gnome-keyring" ];
-        desktops = [ "i3plasma" ];
+        desktops = [ "plasma6" "i3" "i3plasma" ];
         allow_unfree_packages = true;
         permitted_insecure_package = [
           "openssl-1.1.1w"  # required by sublime

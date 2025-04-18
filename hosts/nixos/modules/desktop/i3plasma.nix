@@ -5,9 +5,6 @@
     };
 
     config = lib.mkIf config.i3plasma.enable  {
-        plasma6.enable = true;
-        i3.enable = true;
-
         services.xserver.displayManager = {
             defaultSession = "i3+plasma";
             session = [
