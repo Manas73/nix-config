@@ -5,37 +5,8 @@
     };
 
     config = lib.mkIf config.i3plasma.enable  {
-        imports = [
-        ../../login_manager/sddm
-        ];
-
-        services.xserver.enable = true;
-        services.desktopManager.plasma6.enable = true;
-
-        services.xserver.windowManager.i3 = {
-          enable = true;
-          extraPackages = with pkgs; [
-            libsForQt5.qtstyleplugin-kvantum
-           (
-                rofi.override (old: {
-                    plugins = [rofi-emoji rofi-calc];
-                })
-            )
-            i3-gaps
-            picom-next
-            xcompmgr
-            feh
-            (
-                polybar.override {
-                    i3Support = true;
-                }
-            )
-            xbindkeys
-            xorg.xdpyinfo
-            sysstat
-            yad
-          ];
-        };
+        plasma6.enable = true;
+        i3.enable = true;
 
         services.xserver.displayManager = {
             defaultSession = "i3+plasma";
