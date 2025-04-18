@@ -2,7 +2,7 @@
 {
   services.displayManager.sddm = {
     enable = true;
-    theme = "${import ./theme.nix {inherit pkgs; }}";
+    theme = "${import ./themes/chilli.nix {inherit pkgs; }}";
   };
 
   environment.systemPackages = with pkgs; [

@@ -33,7 +33,7 @@ rec {
       keyrings ? [ ],
       permitted_insecure_package ? [ ],
       shells ? [ ],
-      desktop_managers ? [ ],
+      desktops ? [ ],
       window_managers ?  [ ],
       mkPkgs ? mkPkgs, # Allow custom mkPkgs function to be passed
     }: let
@@ -41,7 +41,7 @@ rec {
         inherit system allow_unfree_packages permitted_insecure_package;
       };
     in {
-      inherit system hostname timezone locale gpu_type keyrings shells desktop_managers window_managers;
+      inherit system hostname timezone locale gpu_type keyrings shells desktops window_managers;
       pkgs = package_config.pkgs;
       pkgs-unstable = package_config.pkgs-unstable;
     };
@@ -84,7 +84,7 @@ rec {
     in {
       inherit system hostname timezone locale shells terminals browsers utilities development_apps communications office_suites window_managers;
       keyrings = [ ];
-      desktop_managers = [ ];
+      desktops = [ ];
       pkgs = package_config.pkgs;
       pkgs-unstable = package_config.pkgs-unstable;
     };
@@ -98,7 +98,9 @@ rec {
       lib.nixosSystem {
         system = systemSettings.system;
         modules = [
-          ./hosts/${systemSettings.hostname}
+          ./hosts/common/modules
+          ./hosts/nixos/modules
+          ./hosts/nixos/${systemSettings.hostname}
           sops-nix.nixosModules.sops
         ] ++ (map (username: ./users/${username}/configuration.nix) (builtins.attrNames userConfigurations));
         specialArgs = {
@@ -119,7 +121,8 @@ rec {
       darwin.lib.darwinSystem {
         system = systemSettings.system;
         modules = [
-          ./hosts/${systemSettings.hostname}
+          ./hosts/common/modules
+          ./hosts/darwin/${systemSettings.hostname}
           home-manager.darwinModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

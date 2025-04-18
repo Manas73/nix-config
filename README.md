@@ -9,9 +9,11 @@ My personal NixOS and macOS (nix-darwin) configurations, using flakes for compre
 ├── flake.nix         # Main entry point defining system configurations
 ├── mk-functions.nix  # Helper functions for building configurations
 ├── hosts/            # Host-specific configurations
+│   ├── nixos/        # NixOS host configurations
+│   │   ├── modules/  # NixOS system modules (formerly system_modules)
+│   └── darwin/       # Darwin (macOS) host configurations
 ├── users/            # User configurations and home-manager settings
 ├── modules/          # Shared home-manager modules
-├── system_modules/   # Shared NixOS/Darwin system modules
 ├── overlays/         # Custom package definitions and modifications
 ├── scripts/          # Utility scripts for working with the configuration
 └── secrets.yaml      # Encrypted secrets using sops-nix
@@ -106,7 +108,9 @@ nix flake update
 
 ## Adding a New Host
 
-1. Create a directory in `hosts/` with the hostname
+1. Create a directory in the appropriate location:
+   - For NixOS: `hosts/nixos/hostname`
+   - For Darwin: `hosts/darwin/hostname`
 2. Add host-specific configuration
 3. Add the host to `flake.nix` in the appropriate outputs section
 

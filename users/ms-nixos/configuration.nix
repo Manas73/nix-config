@@ -6,7 +6,6 @@ in
 
 {
     imports = [
-    ../../system_modules
     ../../modules
     ];
 

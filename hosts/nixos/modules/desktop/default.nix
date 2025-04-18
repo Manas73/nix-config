@@ -1,10 +1,10 @@
 { pkgs, lib, system_settings, ... }:
 let
   functions = import ../functions.nix { inherit pkgs lib; };
-  desktop_manager_options = [ "plasma6" ];
+  desktop_manager_options = [ "plasma6" "i3plasma" ];
 in
 functions.makeModuleConfig {
   options = desktop_manager_options;
-  current = system_settings.desktop_managers;
-  module_name = "desktop_manager";
+  current = system_settings.desktops;
+  module_name = "desktop";
 }
