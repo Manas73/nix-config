@@ -8,7 +8,7 @@ let
   moduleImports = builtins.map
     (name: ./${name})
     (builtins.filter
-      (name: entries.${name} == "directory" && name != "default.nix")
+      (name: entries.${name} == "directory" && name != "default.nix" && name != "login_manager")
       (builtins.attrNames entries));
 in
 {

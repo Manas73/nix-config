@@ -1,4 +1,4 @@
-{ pkgs, lib, system_settings, ... }:
+{ pkgs, lib, user_settings, ... }:
 
 let
   functions = import ../functions.nix { inherit pkgs lib; };
@@ -6,6 +6,6 @@ let
 in
   functions.makeModuleConfig {
     options = browser_options;
-    current = system_settings.browsers;
+    current = user_settings.browsers;
     module_name = "browser";
   }

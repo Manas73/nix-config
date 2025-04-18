@@ -35,7 +35,6 @@ rec {
       shells ? [ ],
       desktops ? [ ],
       window_managers ?  [ ],
-      mkPkgs ? mkPkgs, # Allow custom mkPkgs function to be passed
     }: let
       package_config = mkPkgs {
         inherit system allow_unfree_packages permitted_insecure_package;
@@ -76,7 +75,6 @@ rec {
       communications ? [ ],
       office_suites ? [ ],
       window_managers ?  [ ],
-      mkPkgs ? mkPkgs, # Allow custom mkPkgs function to be passed
     }: let
       package_config = mkPkgs {
         inherit system allow_unfree_packages permitted_insecure_package;

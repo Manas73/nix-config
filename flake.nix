@@ -64,31 +64,6 @@
       communications = [ "slack" "zoom" "rambox" ];
     };
 
-    # Function to create package sets with our overlays
-    mkPkgsWithOverlays = { system, allow_unfree_packages, permitted_insecure_package }: 
-      import inputs.nixpkgs {
-        inherit system;
-        config = {
-          allowUnfree = allow_unfree_packages;
-          allowUnfreePredicate = (_: true);
-          permittedInsecurePackages = permitted_insecure_package;
-        };
-        overlays = [
-          overlays.additions
-          overlays.modifications
-          overlays.versions
-          (final: prev: {
-            unstable = import inputs.nixpkgs-unstable {
-              inherit system;
-              config = {
-                allowUnfree = allow_unfree_packages;
-                allowUnfreePredicate = (_: true);
-              };
-            };
-          })
-        ];
-      };
-
     alfredConfig = {
       system_settings = mkFunctions.mkSystemSettings {
         system = "x86_64-linux";
@@ -103,14 +78,13 @@
         permitted_insecure_package = [
           "openssl-1.1.1w"  # required by sublime
         ];
-        mkPkgs = mkPkgsWithOverlays; # Use our new function with overlays
       };
       user_configurations = {
         "ms-nixos" = mkFunctions.mkUserSettings {
           username = "ms-nixos";
           full_name = "Manas Sambare";
           default_shell = "fish";
-          office_suites = [ "libreoffice" ];
+	        office_suites = [ "libreoffice" ];
          } // applications;
       };
     };
@@ -124,7 +98,6 @@
         shells = [ "fish" ];
         allow_unfree_packages = true;
         permitted_insecure_package = [];
-        mkPkgs = mkPkgsWithOverlays; # Use our new function with overlays
       } // applications;
       user_configurations = {
         "manas.s" = mkFunctions.mkUserSettings {

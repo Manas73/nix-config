@@ -1,4 +1,4 @@
-{ pkgs, lib, system_settings, ... }:
+{ pkgs, lib, user_settings, ... }:
 let
   functions = import ../functions.nix { inherit pkgs lib; };
   utility_options = [ 
@@ -10,6 +10,6 @@ let
 in
 functions.makeModuleConfig {
   options = utility_options;
-  current = system_settings.utilities;
+  current = user_settings.utilities;
   module_name = "utility";
 }
