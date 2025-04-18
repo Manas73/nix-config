@@ -1,28 +1,32 @@
 # Nix Configuration
 
-This repository contains my personal NixOS and Home Manager configurations, managed using Nix Flakes.
+My personal NixOS and macOS (nix-darwin) configurations, using flakes for comprehensive, modular, and reproducible system management.
 
-## Table of Contents
-- [Structure](#structure)
-- [MacOS (Darwin)](#macos-darwin)
-  - [Initial Setup](#initial-setup)
-  - [Usage](#usage)
-- [NixOS](#nixos)
-  - [Usage](#usage-1)
-- [Customization](#customization)
+## Repository Structure
 
-## Structure
+```
+.
+├── flake.nix         # Main entry point defining system configurations
+├── mk-functions.nix  # Helper functions for building configurations
+├── hosts/            # Host-specific configurations
+├── users/            # User configurations and home-manager settings
+├── modules/          # Shared home-manager modules
+├── system_modules/   # Shared NixOS/Darwin system modules
+├── overlays/         # Custom package definitions and modifications
+├── scripts/          # Utility scripts for working with the configuration
+└── secrets.yaml      # Encrypted secrets using sops-nix
+```
 
-The repository is organized as follows:
-- `flake.nix`: The main entry point for the Nix Flake configuration.
-- `hosts/`: Contains configuration for specific machines (e.g., `alfred`).
-- `system_modules/`: Reusable Nix modules for various system components (e.g., `desktop manager`, `shell`, `window manager`).
-- `modules/`: Reusable Nix modules for applications and utilities (e.g., `browsers`, `communication tools`, `development tools`).
-- `users/`: User-specific configurations
-- `sync-system.sh`, `sync-user.sh`, `sync.sh`: Scripts for synchronizing and deploying configurations.
-- `secrets.yaml`: File for storing sensitive information managed by `nix-sops`.
+## Key Features
 
-## MacOS (Darwin)
+- Multi-system support (NixOS and macOS)
+- Modular configuration for easy reuse and sharing
+- User-specific home-manager configurations
+- Encrypted secrets with sops-nix
+- Separate stable and unstable package channels
+- Organized overlays for custom packages and modifications
+
+## macOS (Darwin)
 
 ### Initial Setup
 
@@ -50,70 +54,71 @@ The repository is organized as follows:
 
 6. Restart your shell.
 
-### Usage
-1. Ensure you have Nix with Flakes enabled installed on your system.
-2. Clone this repository:
-    ```shell
-    git clone https://github.com/Manas73/nix-config.git
-    ```
-3. Navigate to the repository directory:
-    ```shell
-    cd nix-config
-    ```
-4. Apply the configurations:
-    ```shell
-    ./sync-darwin.sh
-    ```
+## Usage
 
-## NixOS
+### Applying System Configuration
 
-### Usage
+Using helper scripts (automatically detects system type):
+```bash
+./scripts/sync.sh             # Apply both system and user config
+./scripts/sync-system.sh      # Apply only system config
+./scripts/sync-user.sh        # Apply only user config
+```
 
-To use this configuration:
+Manual commands:
+```bash
+# For NixOS
+sudo nixos-rebuild switch --flake .#hostname
 
-1. Ensure you have Nix with Flakes enabled installed on your system.
-2. Clone this repository:
-    ```shell
-    git clone https://github.com/Manas73/nix-config.git
-    ```
-3. Navigate to the repository directory:
-    ```shell
-    cd nix-config
-    ```
-4. Apply the configurations using one of the following sync scripts:
+# For macOS
+darwin-rebuild switch --flake .#hostname
+```
 
-   <br>
+### Applying User Configuration
 
-   - To apply **both system and `home-manager`** configurations:
-     ```shell
-     ./sync.sh
-     ```
+Using helper script:
+```bash
+./scripts/sync-user.sh
+```
 
-   - To apply **only the system** configuration:
-     ```shell
-     ./sync-system.sh
-     ```
+Manual command:
+```bash
+home-manager switch --flake .#username
+```
 
-   - To apply **only the `home-manager`** configuration:
-     ```shell
-     ./sync-user.sh
-     ```
-   <br>
+### Development Environment
 
-   **Notes:**
-   - The sync scripts use `sudo` where necessary, so you may be prompted for your password during execution.
-   - The `sync.sh` script combines the functionality of both `sync-system.sh` and `sync-user.sh`, allowing you to update your entire configuration in one go.
+Enter a development shell with useful tools:
+```bash
+nix-shell
+```
 
-   <br>
+Format Nix files:
+```bash
+./scripts/format.sh
+```
 
-5. After running any of these scripts, your system will rebuild and apply the new configurations.
+### Updating Flake Inputs
 
+```bash
+nix flake update
+```
 
-## Customization
+## Adding a New Host
 
-To customize this configuration for your own use:
+1. Create a directory in `hosts/` with the hostname
+2. Add host-specific configuration
+3. Add the host to `flake.nix` in the appropriate outputs section
 
-1. Modify the `hosts/` directory to match your machine(s).
-2. Update user configurations in the `users/` directory.
-3. Adjust modules in the `system_modules/` or `modules/` directory as needed.
-4. Utilize the sync scripts (`sync-system.sh`, `sync-user.sh`, `sync.sh`) to deploy your changes.
+## Adding a New User
+
+1. Create a directory in `users/` with the username
+2. Create `configuration.nix` and `home.nix` files
+3. Add the user to a host configuration in `flake.nix`
+
+## Adding Custom Packages
+
+Custom packages can be added in the `overlays/` directory:
+- `overlays/additions/` - New packages not in nixpkgs
+- `overlays/modifications/` - Modifications to existing packages
+- `overlays/versions/` - Pinned package versions

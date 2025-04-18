@@ -51,6 +51,9 @@
 
     lib = inputs.nixpkgs.lib;
     mkFunctions = import ./mk-functions.nix { inherit inputs lib home-manager sops-nix darwin nix-homebrew; };
+    
+    # Import overlays
+    overlays = import ./overlays;
 
     applications = {
       browsers = [ "vivaldi" "firefox" ];
@@ -60,6 +63,31 @@
       development_apps = [ "all" ];
       communications = [ "slack" "zoom" "rambox" ];
     };
+
+    # Function to create package sets with our overlays
+    mkPkgsWithOverlays = { system, allow_unfree_packages, permitted_insecure_package }: 
+      import inputs.nixpkgs {
+        inherit system;
+        config = {
+          allowUnfree = allow_unfree_packages;
+          allowUnfreePredicate = (_: true);
+          permittedInsecurePackages = permitted_insecure_package;
+        };
+        overlays = [
+          overlays.additions
+          overlays.modifications
+          overlays.versions
+          (final: prev: {
+            unstable = import inputs.nixpkgs-unstable {
+              inherit system;
+              config = {
+                allowUnfree = allow_unfree_packages;
+                allowUnfreePredicate = (_: true);
+              };
+            };
+          })
+        ];
+      };
 
     alfredConfig = {
       system_settings = mkFunctions.mkSystemSettings {
@@ -75,6 +103,7 @@
         permitted_insecure_package = [
           "openssl-1.1.1w"  # required by sublime
         ];
+        mkPkgs = mkPkgsWithOverlays; # Use our new function with overlays
       };
       user_configurations = {
         "ms-nixos" = mkFunctions.mkUserSettings {
@@ -95,6 +124,7 @@
         shells = [ "fish" ];
         allow_unfree_packages = true;
         permitted_insecure_package = [];
+        mkPkgs = mkPkgsWithOverlays; # Use our new function with overlays
       } // applications;
       user_configurations = {
         "manas.s" = mkFunctions.mkUserSettings {
