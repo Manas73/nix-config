@@ -12,10 +12,7 @@ let
       (builtins.attrNames entries));
 in
 {
-  imports = [
-    ../base_user.nix
-    ../../modules
-  ] ++ moduleImports;
+  imports = moduleImports;
 
   programs.git.userName = "Manas73";
   programs.git.userEmail = "manas.sambare@gmail.com";

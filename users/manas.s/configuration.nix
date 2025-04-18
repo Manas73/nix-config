@@ -5,10 +5,6 @@ let
 in
 
 {
-    imports = [
-        ../../modules
-    ];
-
     users.users.${user_settings.username} = {
       home = "/Users/${user_settings.username}";
       shell = pkgs.${user_settings.default_shell};

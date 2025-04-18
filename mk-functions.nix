@@ -121,6 +121,7 @@ rec {
         modules = [
           ./hosts/common/modules
           ./hosts/darwin/${systemSettings.hostname}
+          ./modules
           home-manager.darwinModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -156,10 +157,17 @@ rec {
       let
         systemSettings = config.system_settings;
         userSettings = config.user_configurations.${username};
+        isDarwin = systemSettings.system == "aarch64-darwin" || systemSettings.system == "x86_64-darwin";
+        baseModules = [
+            ./users/base_user.nix
+            ./users/${username}/home.nix
+        ];
+        # Include ./modules only for Linux systems (non-Darwin)
+        modulesList = if isDarwin then baseModules else baseModules ++ [ ./modules ];
       in
       home-manager.lib.homeManagerConfiguration {
         pkgs = systemSettings.pkgs;
-        modules = [ ./users/${username}/home.nix ];
+        modules = modulesList;
         extraSpecialArgs = {
           pkgs = systemSettings.pkgs;
           pkgs-unstable = systemSettings.pkgs-unstable;
