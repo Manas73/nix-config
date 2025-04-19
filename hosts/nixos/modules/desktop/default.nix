@@ -7,4 +7,5 @@ functions.makeModuleConfig {
   options = desktop_manager_options;
   current = system_settings.desktops;
   module_name = "desktop";
+  conditional_imports = [ ./common.nix ];
 }
