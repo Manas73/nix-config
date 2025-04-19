@@ -7,17 +7,6 @@
     config = lib.mkIf config.i3.enable  {
         # Enable the X11 windowing system.
         # You can disable this if you're only using the Wayland session.
-        services.xserver.displayManager = lib.mkIf config.plasma.enable {
-            defaultSession = "plasma+i3";
-            session = [
-                {
-                    manage = "desktop";
-                    name = "plasma+i3";
-                    start = ''exec env KDEWM=${pkgs.i3-gaps}/bin/i3 startplasma-x11'';
-                }
-            ];
-        };
-
         services.udisks2.enable = true;
         services.upower.enable = true;
         services.xserver.windowManager.i3 = {

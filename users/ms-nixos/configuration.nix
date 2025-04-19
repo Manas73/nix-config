@@ -41,8 +41,10 @@ in
       openssh.authorizedKeys.keys = config.users.users.${user_settings.username}.openssh.authorizedKeys.keys;
     };
 
+
     systemd = {
       user.services.polkit-gnome-authentication-agent-1 = {
+        enable = false;
         description = "polkit-gnome-authentication-agent-1";
         wantedBy = [ "graphical-session.target" ];
         wants = [ "graphical-session.target" ];
@@ -69,6 +71,22 @@ in
                 "uinput"
             ];
         };
+      };
+      # Ref: https://discourse.nixos.org/t/replacing-the-kde-window-manager-kwin-with-i3/60046/4
+      user.services.plasma-i3wm = {
+        wantedBy = [ "plasma-workspace-x11.target" ];
+        description = "Launch Plasma with i3wm.";
+        environment = lib.mkForce {};
+        serviceConfig = {
+          ExecStart = "${pkgs.i3}/bin/i3";
+          Restart = "on-failure";
+        };
+      };
+      user.services.plasma-kwin_x11 = {
+        enable = false;
+      };
+      user.services.plasma-workspace-x11 = {
+        after = [ "plasma-i3wm.target" ];
       };
     };
 }
