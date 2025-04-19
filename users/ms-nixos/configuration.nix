@@ -56,59 +56,31 @@ in
             TimeoutStopSec = 10;
         };
       };
+      user.services.kanata = {
+        description = "Kanata keyboard remapper";
+        wantedBy = [ "default.target" ];
+        serviceConfig = {
+            Type = "simple";
+            ExecStart = "${pkgs.kanata}/bin/kanata --cfg /home/${user_settings.username}/.config/kanata/config.kbd";
+            Restart = "never";
+            SupplementaryGroups = [
+                "input"
+                "uinput"
+            ];
+        };
+      };
+      user.services.plasma-kwin_x11 = {
+        wantedBy = lib.mkForce [];
+      };
+      user.services.plasma-i3 = {
+        description = "Launch Plasma with i3";
+        wantedBy = [ "plasma-workspace.target" ];
+        before = [ "plasma-workspace.target" ];
+        serviceConfig = {
+            Type = "simple";
+            ExecStart = "${pkgs.i3-gaps}/bin/i3";
+            Restart = "on-failure";
+        };
+      };
     };
-
-   # Add the Kanata service user to necessary groups
-   systemd.services.kanata-default.serviceConfig = {
-      SupplementaryGroups = [
-        "input"
-        "uinput"
-      ];
-   };
-
-   services.kanata = {
-    enable = true;
-    keyboards = {
-      default.extraDefCfg = "process-unmapped-keys yes";
-      default.config = ''
-      ;; Kanata Keyboard Configuration for Programming with Home-Row Mods
-
-
-      ;; Define aliases for the home-row mods and other tap-hold keys
-      (defalias
-        ;; Home row mods - left hand
-        alt_a (tap-hold 200 200 a lalt)  ;; A key: tap for 'a', hold for left Alt
-        sft_s (tap-hold 200 200 s lsft)  ;; S key: tap for 's', hold for left Shift
-        ctl_d (tap-hold 200 200 d lctl)  ;; D key: tap for 'd', hold for left Control
-
-        ;; Home row mods - right hand
-        ctl_j (tap-hold 200 200 j rctl)  ;; J key: tap for 'j', hold for right Control
-        sft_k (tap-hold 200 200 k rsft)  ;; K key: tap for 'k', hold for right Shift
-        alt_l (tap-hold 200 200 l lalt)  ;; L key: tap for 'l', hold for left Alt
-        met_; (tap-hold 200 200 ; rmet)  ;; ; key: tap for ';', hold for right Super/Meta
-
-        ;; Existing mapping: Caps Lock as Esc/Super
-        esc_met (tap-hold 200 200 esc lmet)  ;; Caps: tap for Escape, hold for left Super/Meta
-      )
-
-      ;; Source keys (standard QWERTY layout)
-      (defsrc
-        esc  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-        tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-        caps a    s    d    f    g    h    j    k    l    ;    '    ret
-        lsft z    x    c    v    b    n    m    ,    .    /    rsft
-        lctl lmet lalt           spc            ralt rmet rctl
-      )
-
-      ;; Main layer with home row mods
-      (deflayer main
-        esc  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-        tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-        @esc_met @alt_a @sft_s @ctl_d f    g    h    @ctl_j @sft_k @alt_l @met_; '    ret
-        lsft z    x    c    v    b    n    m    ,    .    /    rsft
-        lctl lmet lalt           spc            ralt rmet rctl
-      )
-      '';
-    };
-  };
 }
