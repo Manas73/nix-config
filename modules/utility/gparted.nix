@@ -1,11 +1,24 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        gparted.enable = lib.mkEnableOption "enables gparted";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.gparted.enable {
-        # Gparted is only available on Linux
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ gparted ]);
+  # Define config for each platform
+  gpartedPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.gparted ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.gparted ];
+    };
+    # GParted is only available on Linux, so macOS platforms have empty configs
+    "x86_64-darwin" = { };
+    "aarch64-darwin" = { };
+  };
+
+  gpartedConfig = lib.attrByPath [ system ] { } gpartedPerPlatform;
+in {
+  options.gparted.enable = lib.mkEnableOption "Enable GParted partition editor";
+
+  config = lib.mkIf config.gparted.enable gpartedConfig;
 }

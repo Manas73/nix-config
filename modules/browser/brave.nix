@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        brave.enable = lib.mkEnableOption "enables brave";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.brave.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "brave-browser" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ brave ]);
+  # Define config for each platform
+  bravePerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.brave ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.brave ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "brave-browser" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "brave-browser" ];
+    };
+  };
+
+  braveConfig = lib.attrByPath [ system ] { } bravePerPlatform;
+in {
+  options.brave.enable = lib.mkEnableOption "Enable Brave browser";
+
+  config = lib.mkIf config.brave.enable braveConfig;
 }

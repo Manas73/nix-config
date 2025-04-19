@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        teams.enable = lib.mkEnableOption "enables teams";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.teams.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "microsoft-teams" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ teams ]);
+  # Define config for each platform
+  teamsPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.teams ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.teams ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "microsoft-teams" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "microsoft-teams" ];
+    };
+  };
+
+  teamsConfig = lib.attrByPath [ system ] { } teamsPerPlatform;
+in {
+  options.teams.enable = lib.mkEnableOption "Enable Microsoft Teams";
+
+  config = lib.mkIf config.teams.enable teamsConfig;
 }

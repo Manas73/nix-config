@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        chezmoi.enable = lib.mkEnableOption "enables chezmoi";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.chezmoi.enable {
-        # Use environment.systemPackages for Darwin (macOS) systems, home.packages for others
-        environment.systemPackages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.chezmoi ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ chezmoi ]);
+  # Define config for each platform
+  chezmoiPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.chezmoi ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.chezmoi ];
+    };
+    "x86_64-darwin" = {
+      environment.systemPackages = [ pkgs.chezmoi ];
+    };
+    "aarch64-darwin" = {
+      environment.systemPackages = [ pkgs.chezmoi ];
+    };
+  };
+
+  chezmoiConfig = lib.attrByPath [ system ] { } chezmoiPerPlatform;
+in {
+  options.chezmoi.enable = lib.mkEnableOption "Enable Chezmoi dotfile manager";
+
+  config = lib.mkIf config.chezmoi.enable chezmoiConfig;
 }

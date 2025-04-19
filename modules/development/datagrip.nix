@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        datagrip.enable = lib.mkEnableOption "enables datagrip";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.datagrip.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "datagrip" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ jetbrains.datagrip ]);
+  # Define config for each platform
+  dagripPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.jetbrains.datagrip ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.jetbrains.datagrip ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "datagrip" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "datagrip" ];
+    };
+  };
+
+  dagripConfig = lib.attrByPath [ system ] { } dagripPerPlatform;
+in {
+  options.datagrip.enable = lib.mkEnableOption "Enable DataGrip";
+
+  config = lib.mkIf config.datagrip.enable dagripConfig;
 }

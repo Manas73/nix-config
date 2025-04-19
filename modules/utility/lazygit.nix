@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        lazygit.enable = lib.mkEnableOption "enables lazygit";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.lazygit.enable {
-        # Use environment.systemPackages for Darwin (macOS) systems, home.packages for others
-        environment.systemPackages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.lazygit ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ lazygit ]);
+  # Define config for each platform
+  lazygitPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.lazygit ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.lazygit ];
+    };
+    "x86_64-darwin" = {
+      environment.systemPackages = [ pkgs.lazygit ];
+    };
+    "aarch64-darwin" = {
+      environment.systemPackages = [ pkgs.lazygit ];
+    };
+  };
+
+  lazygitConfig = lib.attrByPath [ system ] { } lazygitPerPlatform;
+in {
+  options.lazygit.enable = lib.mkEnableOption "Enable Lazygit git TUI";
+
+  config = lib.mkIf config.lazygit.enable lazygitConfig;
 }

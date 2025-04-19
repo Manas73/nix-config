@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        alacritty.enable = lib.mkEnableOption "enables alacritty";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.alacritty.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "alacritty" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ alacritty ]);
+  # Define config for each platform
+  alacrittyPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.alacritty ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.alacritty ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "alacritty" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "alacritty" ];
+    };
+  };
+
+  alacrittyConfig = lib.attrByPath [ system ] { } alacrittyPerPlatform;
+in {
+  options.alacritty.enable = lib.mkEnableOption "Enable Alacritty terminal";
+
+  config = lib.mkIf config.alacritty.enable alacrittyConfig;
 }

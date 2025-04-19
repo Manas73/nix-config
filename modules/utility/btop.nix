@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        btop.enable = lib.mkEnableOption "enables btop";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.btop.enable {
-        # Use environment.systemPackages for Darwin (macOS) systems, home.packages for others
-        environment.systemPackages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.btop ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ btop ]);
+  # Define config for each platform
+  btopPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.btop ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.btop ];
+    };
+    "x86_64-darwin" = {
+      environment.systemPackages = [ pkgs.btop ];
+    };
+    "aarch64-darwin" = {
+      environment.systemPackages = [ pkgs.btop ];
+    };
+  };
+
+  btopConfig = lib.attrByPath [ system ] { } btopPerPlatform;
+in {
+  options.btop.enable = lib.mkEnableOption "Enable btop system monitor";
+
+  config = lib.mkIf config.btop.enable btopConfig;
 }

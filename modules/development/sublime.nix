@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        sublime.enable = lib.mkEnableOption "enables sublime";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.sublime.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "sublime-text" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ sublime4 ]);
+  # Define config for each platform
+  sublimePerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.sublime4 ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.sublime4 ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "sublime-text" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "sublime-text" ];
+    };
+  };
+
+  sublimeConfig = lib.attrByPath [ system ] { } sublimePerPlatform;
+in {
+  options.sublime.enable = lib.mkEnableOption "Enable Sublime Text";
+
+  config = lib.mkIf config.sublime.enable sublimeConfig;
 }

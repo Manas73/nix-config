@@ -1,11 +1,24 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        flameshot.enable = lib.mkEnableOption "enables flameshot";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.flameshot.enable {
-        # Flameshot is only available on Linux
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ flameshot ]);
+  # Define config for each platform
+  flameshotPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.flameshot ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.flameshot ];
+    };
+    # Flameshot is only available on Linux, so macOS platforms have empty configs
+    "x86_64-darwin" = { };
+    "aarch64-darwin" = { };
+  };
+
+  flameshotConfig = lib.attrByPath [ system ] { } flameshotPerPlatform;
+in {
+  options.flameshot.enable = lib.mkEnableOption "Enable Flameshot screenshot tool";
+
+  config = lib.mkIf config.flameshot.enable flameshotConfig;
 }

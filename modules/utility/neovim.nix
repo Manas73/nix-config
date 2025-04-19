@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        neovim.enable = lib.mkEnableOption "enables neovim";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.neovim.enable {
-        # Use environment.systemPackages for Darwin (macOS) systems, home.packages for others
-        environment.systemPackages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.neovim ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ neovim ]);
+  # Define config for each platform
+  neovimPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.neovim ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.neovim ];
+    };
+    "x86_64-darwin" = {
+      environment.systemPackages = [ pkgs.neovim ];
+    };
+    "aarch64-darwin" = {
+      environment.systemPackages = [ pkgs.neovim ];
+    };
+  };
+
+  neovimConfig = lib.attrByPath [ system ] { } neovimPerPlatform;
+in {
+  options.neovim.enable = lib.mkEnableOption "Enable Neovim editor";
+
+  config = lib.mkIf config.neovim.enable neovimConfig;
 }

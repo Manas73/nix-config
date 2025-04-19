@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        kitty.enable = lib.mkEnableOption "enables kitty";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.kitty.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "kitty" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ kitty ]);
+  # Define config for each platform
+  kittyPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.kitty ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.kitty ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "kitty" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "kitty" ];
+    };
+  };
+
+  kittyConfig = lib.attrByPath [ system ] { } kittyPerPlatform;
+in {
+  options.kitty.enable = lib.mkEnableOption "Enable Kitty terminal";
+
+  config = lib.mkIf config.kitty.enable kittyConfig;
 }

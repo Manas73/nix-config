@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        fzf.enable = lib.mkEnableOption "enables fzf";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.fzf.enable {
-        # Use environment.systemPackages for Darwin (macOS) systems, home.packages for others
-        environment.systemPackages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.fzf ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ fzf ]);
+  # Define config for each platform
+  fzfPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.fzf ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.fzf ];
+    };
+    "x86_64-darwin" = {
+      environment.systemPackages = [ pkgs.fzf ];
+    };
+    "aarch64-darwin" = {
+      environment.systemPackages = [ pkgs.fzf ];
+    };
+  };
+
+  fzfConfig = lib.attrByPath [ system ] { } fzfPerPlatform;
+in {
+  options.fzf.enable = lib.mkEnableOption "Enable fzf fuzzy finder";
+
+  config = lib.mkIf config.fzf.enable fzfConfig;
 }

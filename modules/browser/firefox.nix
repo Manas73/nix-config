@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        firefox.enable = lib.mkEnableOption "enables firefox";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.firefox.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "firefox" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ firefox ]);
+  # Define config for each platform
+  firefoxPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.firefox ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.firefox ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "firefox" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "firefox" ];
+    };
+  };
+
+  firefoxConfig = lib.attrByPath [ system ] { } firefoxPerPlatform;
+in {
+  options.firefox.enable = lib.mkEnableOption "Enable Firefox browser";
+
+  config = lib.mkIf config.firefox.enable firefoxConfig;
 }

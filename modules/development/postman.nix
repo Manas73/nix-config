@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        postman.enable = lib.mkEnableOption "enables postman";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.postman.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "postman" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ postman ]);
+  # Define config for each platform
+  postmanPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.postman ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.postman ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "postman" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "postman" ];
+    };
+  };
+
+  postmanConfig = lib.attrByPath [ system ] { } postmanPerPlatform;
+in {
+  options.postman.enable = lib.mkEnableOption "Enable Postman";
+
+  config = lib.mkIf config.postman.enable postmanConfig;
 }

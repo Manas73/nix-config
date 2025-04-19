@@ -1,13 +1,26 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        yabai.enable = lib.mkEnableOption "enables yabai";
+let
+  system = system_settings.system;
+
+  # Define config for each platform
+  yabaiPerPlatform = {
+    # Yabai is only available on macOS, so Linux platforms have empty configs
+    "x86_64-linux" = { };
+    "aarch64-linux" = { };
+    "x86_64-darwin" = {
+      environment.systemPackages = [ pkgs.yabai pkgs.jankyborders ];
+      services.yabai.enable = true;
     };
-
-    config = lib.mkIf config.yabai.enable {
-        # yabai is only available on macOS
-        environment.systemPackages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.yabai pkgs.jankyborders ];
-
-        services.yabai.enable = lib.mkIf pkgs.stdenv.isDarwin true;
+    "aarch64-darwin" = {
+      environment.systemPackages = [ pkgs.yabai pkgs.jankyborders ];
+      services.yabai.enable = true;
     };
+  };
+
+  yabaiConfig = lib.attrByPath [ system ] { } yabaiPerPlatform;
+in {
+  options.yabai.enable = lib.mkEnableOption "Enable Yabai window manager";
+
+  config = lib.mkIf config.yabai.enable yabaiConfig;
 }

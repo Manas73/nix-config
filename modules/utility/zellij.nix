@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        zellij.enable = lib.mkEnableOption "enables zellij";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.zellij.enable {
-        # Use environment.systemPackages for Darwin (macOS) systems, home.packages for others
-        environment.systemPackages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.zellij ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ zellij ]);
+  # Define config for each platform
+  zellijPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.zellij ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.zellij ];
+    };
+    "x86_64-darwin" = {
+      environment.systemPackages = [ pkgs.zellij ];
+    };
+    "aarch64-darwin" = {
+      environment.systemPackages = [ pkgs.zellij ];
+    };
+  };
+
+  zellijConfig = lib.attrByPath [ system ] { } zellijPerPlatform;
+in {
+  options.zellij.enable = lib.mkEnableOption "Enable Zellij terminal multiplexer";
+
+  config = lib.mkIf config.zellij.enable zellijConfig;
 }

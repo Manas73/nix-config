@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        ghq.enable = lib.mkEnableOption "enables ghq";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.ghq.enable {
-        # Use environment.systemPackages for Darwin (macOS) systems, home.packages for others
-        environment.systemPackages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.ghq ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ ghq ]);
+  # Define config for each platform
+  ghqPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.ghq ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.ghq ];
+    };
+    "x86_64-darwin" = {
+      environment.systemPackages = [ pkgs.ghq ];
+    };
+    "aarch64-darwin" = {
+      environment.systemPackages = [ pkgs.ghq ];
+    };
+  };
+
+  ghqConfig = lib.attrByPath [ system ] { } ghqPerPlatform;
+in {
+  options.ghq.enable = lib.mkEnableOption "Enable ghq repository manager";
+
+  config = lib.mkIf config.ghq.enable ghqConfig;
 }

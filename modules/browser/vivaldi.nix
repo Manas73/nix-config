@@ -1,17 +1,37 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        vivaldi.enable = lib.mkEnableOption "enables vivaldi";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.vivaldi.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "vivaldi" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [
-           (vivaldi.override {
-             proprietaryCodecs = true;
-             enableWidevine = true;
-           })
-        ]);
+  # Define config for each platform
+  vivaldiPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [
+        (pkgs.vivaldi.override {
+          proprietaryCodecs = true;
+          enableWidevine = true;
+        })
+      ];
     };
+    "aarch64-linux" = {
+      home.packages = [
+        (pkgs.vivaldi.override {
+          proprietaryCodecs = true;
+          enableWidevine = true;
+        })
+      ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "vivaldi" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "vivaldi" ];
+    };
+  };
+
+  vivaldiConfig = lib.attrByPath [ system ] { } vivaldiPerPlatform;
+in {
+  options.vivaldi.enable = lib.mkEnableOption "Enable Vivaldi browser";
+
+  config = lib.mkIf config.vivaldi.enable vivaldiConfig;
 }

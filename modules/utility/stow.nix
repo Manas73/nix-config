@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        stow.enable = lib.mkEnableOption "enables stow";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.stow.enable {
-        # Use environment.systemPackages for Darwin (macOS) systems, home.packages for others
-        environment.systemPackages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.stow ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ stow ]);
+  # Define config for each platform
+  stowPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.stow ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.stow ];
+    };
+    "x86_64-darwin" = {
+      environment.systemPackages = [ pkgs.stow ];
+    };
+    "aarch64-darwin" = {
+      environment.systemPackages = [ pkgs.stow ];
+    };
+  };
+
+  stowConfig = lib.attrByPath [ system ] { } stowPerPlatform;
+in {
+  options.stow.enable = lib.mkEnableOption "Enable GNU Stow symlink manager";
+
+  config = lib.mkIf config.stow.enable stowConfig;
 }

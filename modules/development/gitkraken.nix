@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        gitkraken.enable = lib.mkEnableOption "enables gitkraken";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.gitkraken.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "gitkraken" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ gitkraken ]);
+  # Define config for each platform
+  gitkrakenPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.gitkraken ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.gitkraken ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "gitkraken" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "gitkraken" ];
+    };
+  };
+
+  gitkrakenConfig = lib.attrByPath [ system ] { } gitkrakenPerPlatform;
+in {
+  options.gitkraken.enable = lib.mkEnableOption "Enable GitKraken Git client";
+
+  config = lib.mkIf config.gitkraken.enable gitkrakenConfig;
 }

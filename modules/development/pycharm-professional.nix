@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        pycharm-professional.enable = lib.mkEnableOption "enables pycharm-professional";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.pycharm-professional.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "pycharm" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ jetbrains.pycharm-professional ]);
+  # Define config for each platform
+  pycharmProfessionalPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.jetbrains.pycharm-professional ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.jetbrains.pycharm-professional ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "pycharm" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "pycharm" ];
+    };
+  };
+
+  pycharmProfessionalConfig = lib.attrByPath [ system ] { } pycharmProfessionalPerPlatform;
+in {
+  options.pycharm-professional.enable = lib.mkEnableOption "Enable PyCharm Professional";
+
+  config = lib.mkIf config.pycharm-professional.enable pycharmProfessionalConfig;
 }

@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        eza.enable = lib.mkEnableOption "enables eza";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.eza.enable {
-        # Use environment.systemPackages for Darwin (macOS) systems, home.packages for others
-        environment.systemPackages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.eza ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ eza ]);
+  # Define config for each platform
+  ezaPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.eza ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.eza ];
+    };
+    "x86_64-darwin" = {
+      environment.systemPackages = [ pkgs.eza ];
+    };
+    "aarch64-darwin" = {
+      environment.systemPackages = [ pkgs.eza ];
+    };
+  };
+
+  ezaConfig = lib.attrByPath [ system ] { } ezaPerPlatform;
+in {
+  options.eza.enable = lib.mkEnableOption "Enable Eza (ls replacement)";
+
+  config = lib.mkIf config.eza.enable ezaConfig;
 }

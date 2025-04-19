@@ -1,12 +1,26 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        skhd.enable = lib.mkEnableOption "enables skhd";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.skhd.enable {
-        # skhd is only available on macOS
-        environment.systemPackages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.skhd ];
-        services.skhd.enable = lib.mkIf pkgs.stdenv.isDarwin true;
+  # Define config for each platform
+  skhdPerPlatform = {
+    # skhd is only available on macOS, so Linux platforms have empty configs
+    "x86_64-linux" = { };
+    "aarch64-linux" = { };
+    "x86_64-darwin" = {
+      environment.systemPackages = [ pkgs.skhd ];
+      services.skhd.enable = true;
     };
+    "aarch64-darwin" = {
+      environment.systemPackages = [ pkgs.skhd ];
+      services.skhd.enable = true;
+    };
+  };
+
+  skhdConfig = lib.attrByPath [ system ] { } skhdPerPlatform;
+in {
+  options.skhd.enable = lib.mkEnableOption "Enable skhd hotkey daemon";
+
+  config = lib.mkIf config.skhd.enable skhdConfig;
 }

@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        yazi.enable = lib.mkEnableOption "enables yazi";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.yazi.enable {
-        # Use environment.systemPackages for Darwin (macOS) systems, home.packages for others
-        environment.systemPackages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.yazi ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ yazi ]);
+  # Define config for each platform
+  yaziPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.yazi ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.yazi ];
+    };
+    "x86_64-darwin" = {
+      environment.systemPackages = [ pkgs.yazi ];
+    };
+    "aarch64-darwin" = {
+      environment.systemPackages = [ pkgs.yazi ];
+    };
+  };
+
+  yaziConfig = lib.attrByPath [ system ] { } yaziPerPlatform;
+in {
+  options.yazi.enable = lib.mkEnableOption "Enable Yazi terminal file manager";
+
+  config = lib.mkIf config.yazi.enable yaziConfig;
 }

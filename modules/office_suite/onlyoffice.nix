@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        onlyoffice.enable = lib.mkEnableOption "enables onlyoffice";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.onlyoffice.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "onlyoffice" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ onlyoffice-bin_latest ]);
+  # Define config for each platform
+  onlyofficePerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.onlyoffice-bin_latest ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.onlyoffice-bin_latest ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "onlyoffice" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "onlyoffice" ];
+    };
+  };
+
+  onlyofficeConfig = lib.attrByPath [ system ] { } onlyofficePerPlatform;
+in {
+  options.onlyoffice.enable = lib.mkEnableOption "Enable OnlyOffice";
+
+  config = lib.mkIf config.onlyoffice.enable onlyofficeConfig;
 }

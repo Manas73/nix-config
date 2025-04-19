@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        libreoffice.enable = lib.mkEnableOption "enables libreoffice";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.libreoffice.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "libreoffice" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ libreoffice-still ]);
+  # Define config for each platform
+  libreofficePerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.libreoffice-still ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.libreoffice-still ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "libreoffice" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "libreoffice" ];
+    };
+  };
+
+  libreofficeConfig = lib.attrByPath [ system ] { } libreofficePerPlatform;
+in {
+  options.libreoffice.enable = lib.mkEnableOption "Enable LibreOffice";
+
+  config = lib.mkIf config.libreoffice.enable libreofficeConfig;
 }

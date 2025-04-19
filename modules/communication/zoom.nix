@@ -1,12 +1,27 @@
-{ pkgs, lib, config, user_settings, ... }: {
+{ pkgs, lib, config, user_settings, system_settings, ... }:
 
-    options = {
-        zoom.enable = lib.mkEnableOption "enables zoom";
-    };
+let
+  system = system_settings.system;
 
-    config = lib.mkIf config.zoom.enable {
-        # Use Homebrew for Darwin (macOS) systems, home-manager packages for others
-        homebrew.casks = lib.mkIf pkgs.stdenv.isDarwin [ "zoom" ];
-        home.packages = lib.mkIf (!pkgs.stdenv.isDarwin) (with pkgs; [ zoom-us ]);
+  # Define config for each platform
+  zoomPerPlatform = {
+    "x86_64-linux" = {
+      home.packages = [ pkgs.zoom-us ];
     };
+    "aarch64-linux" = {
+      home.packages = [ pkgs.zoom-us ];
+    };
+    "x86_64-darwin" = {
+      homebrew.casks = [ "zoom" ];
+    };
+    "aarch64-darwin" = {
+      homebrew.casks = [ "zoom" ];
+    };
+  };
+
+  zoomConfig = lib.attrByPath [ system ] { } zoomPerPlatform;
+in {
+  options.zoom.enable = lib.mkEnableOption "Enable Zoom";
+
+  config = lib.mkIf config.zoom.enable zoomConfig;
 }
