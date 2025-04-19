@@ -58,5 +58,5 @@ apply_darwin_config() {
 apply_home_config() {
   local username="$1"
   print_msg "blue" "Applying Home Manager configuration for $username..."
-  home-manager switch --flake ".#$username"
+  home-manager switch -b backup --flake ".#$username"
 } 
