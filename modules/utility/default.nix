@@ -5,7 +5,7 @@ let
     "stow" "btop" "ghq" "atuin" "yazi" "zellij" "_1password" "zoxide" 
     "starship" "eza" "fzf" "neovim" "lazygit" "pyenv" "chezmoi" 
     "raycast" "skhd" "yabai" "greenclip" "flameshot" "gparted" 
-    "psmisc" "kanata" "input-remapper" "sketchybar"
+    "psmisc" "kanata" "sketchybar"
   ];
 in
 functions.makeModuleConfig {
