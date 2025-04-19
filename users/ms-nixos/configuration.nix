@@ -59,10 +59,11 @@ in
       user.services.kanata = {
         description = "Kanata keyboard remapper";
         wantedBy = [ "default.target" ];
+        restartIfChanged = false;
         serviceConfig = {
             Type = "simple";
             ExecStart = "${pkgs.kanata}/bin/kanata --cfg /home/${user_settings.username}/.config/kanata/config.kbd";
-            Restart = "never";
+            RemainAfterExit = true;
             SupplementaryGroups = [
                 "input"
                 "uinput"
