@@ -3,12 +3,12 @@
 
   inputs = {
     
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -73,7 +73,7 @@
         gpu_type = "nvidia";
         shells = [ "fish" ];
         keyrings = [ "gnome-keyring" ];
-        desktops = [ "plasma6" "i3" "i3plasma" ];
+        desktops = [ "plasma" "i3" "i3plasma" ];
         allow_unfree_packages = true;
         permitted_insecure_package = [
           "openssl-1.1.1w"  # required by sublime
