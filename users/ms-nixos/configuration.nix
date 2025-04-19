@@ -44,6 +44,7 @@ in
 
     systemd = {
       user.services.polkit-gnome-authentication-agent-1 = {
+        enable = true;
         description = "polkit-gnome-authentication-agent-1";
         wantedBy = [ "graphical-session.target" ];
         wants = [ "graphical-session.target" ];
@@ -57,6 +58,7 @@ in
         };
       };
       user.services.kanata = {
+        enable = true;
         description = "Kanata keyboard remapper";
         wantedBy = [ "default.target" ];
         restartIfChanged = false;
@@ -71,9 +73,10 @@ in
         };
       };
       user.services.plasma-kwin_x11 = {
-        wantedBy = lib.mkForce [];
+        enable = false;
       };
       user.services.plasma-i3 = {
+        enable = true;
         description = "Launch Plasma with i3";
         wantedBy = [ "plasma-workspace.target" ];
         before = [ "plasma-workspace.target" ];
