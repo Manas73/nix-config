@@ -41,10 +41,8 @@ in
       openssh.authorizedKeys.keys = config.users.users.${user_settings.username}.openssh.authorizedKeys.keys;
     };
 
-
     systemd = {
       user.services.polkit-gnome-authentication-agent-1 = {
-        enable = true;
         description = "polkit-gnome-authentication-agent-1";
         wantedBy = [ "graphical-session.target" ];
         wants = [ "graphical-session.target" ];
@@ -70,20 +68,6 @@ in
                 "input"
                 "uinput"
             ];
-        };
-      };
-      user.services.plasma-kwin_x11 = {
-        enable = false;
-      };
-      user.services.plasma-i3 = {
-        enable = true;
-        description = "Launch Plasma with i3";
-        wantedBy = [ "plasma-workspace.target" ];
-        before = [ "plasma-workspace.target" ];
-        serviceConfig = {
-            Type = "simple";
-            ExecStart = "${pkgs.i3-gaps}/bin/i3";
-            Restart = "on-failure";
         };
       };
     };
